@@ -34,4 +34,4 @@ python setup.py install
 
 ## License
 
-The package is released under the [Apache License 2.0](https://github.com/Creditas/galeritas/blob/main/LICENSE.md).
+The package is released under the [Apache License 2.0](https://github.com/Creditas/galeritas/blob/main/LICENSE).
