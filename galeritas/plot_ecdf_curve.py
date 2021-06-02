@@ -1,5 +1,9 @@
+import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+
+from galeritas.utils.creditas_palette import get_palette
+import seaborn as sns
 
 __all__ = [
     "plot_ecdf_curve"
@@ -7,34 +11,36 @@ __all__ = [
 
 
 def plot_ecdf_curve(
-        data,
+        df,
         column_to_plot,
-        plot_title,
+        drop_na=True,
         hue=None,
-        labels=[1, 0],
-        figsize=(16, 6),
+        hue_labels=None,
+        colors=None,
+        color_palette=None,
+        plot_title=None,
         percentiles=(25, 50, 75),
-        mark_percentiles=True
+        percentiles_title='Percentiles',
+        mark_percentiles=True,
+        show_percentile_table=False,
+        figsize=(16, 6),
+        **legend_kwargs
 ):
     """
     Generates an empirical cumulative distribution function.
-
     Theorical Reference: https://en.wikipedia.org/wiki/Empirical_distribution_function
-
-    :param data: A dataframe containing the dataset.
-    :type data: DataFrame
+    
+    :param df: A dataframe containing the dataset.
+    :type df: DataFrame
 
     :param column_to_plot: Column name of the observed data.
     :type column_to_plot: str
 
-    :param hue: Text to describe the category.
-    :type hue: str
-
     :param plot_title: Text to describe the plot's title.
     :type plot_title: str
 
-    :param labels: Possible classes of the binary target. It expects the positive class followed by the negative class.
-    :type labels: list, optional
+    :param hue_labels: Possible classes of the binary target. It expects the positive class followed by the negative class.
+    :type hue_labels: list, optional
 
     :param figsize: A tuple that indicates the figure size (respectively, width and height in inches). |default| :code:`(16, 7)`
     :type figsize: tuple, optional
@@ -46,6 +52,10 @@ def plot_ecdf_curve(
     :type mark_percentiles: bool, optional
 
     """
+    data = df.copy()
+
+    if drop_na:
+        data = data.dropna()
 
     fig, axes = plt.subplots(1, 1, figsize=figsize)
     fig.subplots_adjust(hspace=0.5)
@@ -58,8 +68,16 @@ def plot_ecdf_curve(
     x_values_list.append(x_values)
     y_values_list.append(y_values)
 
+    if hue_labels is not None:
+        data[hue] = data[hue].apply(
+            lambda category: hue_labels[category] if category in hue_labels.keys() else category
+        )
+
     if hue:
-        for _, category in enumerate(data[hue].unique()):
+        data = data.sort_values(by=hue)
+        hue_categories_labels = data[hue].unique()
+
+        for _, category in enumerate(hue_categories_labels):
             df_hue = data.loc[data[hue] == category]
             data_list.append(df_hue)
             x_values, y_values = calculate_ecdf_plot_axis_values(df_hue[column_to_plot])
@@ -69,29 +87,55 @@ def plot_ecdf_curve(
         data_list.pop(0)
         x_values_list.pop(0)
         y_values_list.pop(0)
+    else:
+        hue_categories_labels = [column_to_plot]
+
+    if colors is None:
+        colors = get_palette()
+
+    if color_palette:
+        colors = sns.color_palette(color_palette, len(hue_categories_labels))
+
+    colormap = dict(zip(hue_categories_labels, colors))
 
     for coordinates in enumerate(list(zip(x_values_list, y_values_list))):
         index = coordinates[0]
         x_values, y_values = coordinates[1]
-        axes.plot(x_values, y_values, marker='.', alpha=0.7, linestyle='none', label=labels[index])
+        axes.plot(x_values, y_values, marker='.', markersize=4.5, alpha=0.7, linestyle='none',
+                  label=hue_categories_labels[index], color=colormap[hue_categories_labels[index]])
 
     axes.set_title(plot_title, weight='bold', fontsize=13)
     axes.set_ylabel("ECDF")
+    axes.set_xlabel(column_to_plot)
 
     if mark_percentiles:
+        percentiles_values = []
         for index, data in enumerate(data_list):
             percentiles_calc = np.percentile(data[column_to_plot], percentiles)
             axes.plot(
                 percentiles_calc,
-                np.divide(percentiles_calc, 100),
+                np.divide(percentiles, 100),
                 marker='D',
-                color='orange',
+                markersize=8,
+                color=colormap[hue_categories_labels[index]],
                 linestyle='none',
-                label=f'Percentiles {percentiles_calc} - {labels[index]}'
+                label=f'{percentiles_title} {percentiles} - {hue_categories_labels[index]}'
             )
+            percentiles_values.append(percentiles_calc)
 
-    axes.legend(loc="upper left")
+    axes.legend(loc="lower right")
+
+    if bool(legend_kwargs) is True:
+        axes.legend(**legend_kwargs)
+
     plt.close()
+
+    if show_percentile_table:
+        columns = list(zip([percentiles_title] * len(percentiles), list(percentiles)))
+        columns = pd.MultiIndex.from_tuples(columns)
+        tabela = pd.DataFrame(percentiles_values, index=hue_categories_labels, columns=columns)
+
+        display(tabela)
 
     return fig
 
