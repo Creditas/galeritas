@@ -39,16 +39,16 @@ def plot_ecdf_curve(
     :param drop_na: If True, removes the missing values of the column to be plotted. Otherwise, plots the distribution without removing the missing values, but doesn't calculates the percentiles. |default| :code:`True`
     :type drop_na: bool, optional
 
-    :param hue: A string indicating the dataframe's column name containing the categories. |default| :code:`None`
+    :param hue: A string indicating the dataframe's column name containing the categories if is wanted to plot the distribution using the column passed by column_to_plot parameter for each category that appears at the column passed by hue parameter. |default| :code:`None`
     :type hue: str, optional
 
-    :param hue_labels: Possible classes of the binary target. It expects the positive class followed by the negative class. |default| :code:`None`
+    :param hue_labels: Parameter to be used if is wanted to show a label of hue categories different from the actual values existing in the column passed by hue parameter. It's necessary to pass a dictionary containing the values to be replaced and the values that will replace them (e.g. {1:'True', 0: 'False'}). |default| :code:`None`
     :type hue_labels: Dict, optional
 
     :param colors: A list containing the hexadecimal colors of each hue. The number of elements on the list must be the same of hue groups. |default| :code:`None`
     :type colors: list of str, optional
 
-    :param color_palette:  If colors parameter is None, uses the color_palette to set different colors of the palette for each hue value. |default| :code:`'pastel'`
+    :param color_palette:  If colors parameter is None, uses the color_palette to set different colors of the palette for each hue value. |default| :code:`None`
     :type color_palette: str, optional
 
     :param plot_title: Text to describe the plot's title. |default| :code:`None`
@@ -69,7 +69,7 @@ def plot_ecdf_curve(
     :param figsize: A tuple that indicates the figure size (respectively, width and height in inches). |default| :code:`(16, 7)`
     :type figsize: tuple, optional
 
-    :param legend_kwargs: Matplotlib.pyplot's legend arguments such as *bbox_to_anchor* and *ncol*. Further informations `here <http://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.legend>`_.
+    :param legend_kwargs: Matplotlib.pyplot's legend arguments such as *bbox_to_anchor* and *ncol*. Further informations `here <http://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.legend>`__.
     :type legend_kwargs: key, value mappings
 
     :return: Returns the figure object with the plot
@@ -101,6 +101,7 @@ def plot_ecdf_curve(
         )
 
     if hue:
+        data[hue] = data[hue].astype('str')
         data = data.sort_values(by=hue)
         hue_categories_labels = data[hue].unique()
 
