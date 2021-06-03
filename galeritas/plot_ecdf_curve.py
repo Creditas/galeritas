@@ -1,9 +1,9 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-
 from galeritas.utils.creditas_palette import get_palette
 import seaborn as sns
+import warnings
 
 __all__ = [
     "plot_ecdf_curve"
@@ -23,39 +23,66 @@ def plot_ecdf_curve(
         percentiles_title='Percentiles',
         mark_percentiles=True,
         show_percentile_table=False,
-        figsize=(16, 6),
+        figsize=(16, 7),
         **legend_kwargs
 ):
     """
     Generates an empirical cumulative distribution function.
     Theorical Reference: https://en.wikipedia.org/wiki/Empirical_distribution_function
-    
+
     :param df: A dataframe containing the dataset.
     :type df: DataFrame
 
     :param column_to_plot: Column name of the observed data.
     :type column_to_plot: str
 
-    :param plot_title: Text to describe the plot's title.
-    :type plot_title: str
+    :param drop_na: If True, removes the missing values of the column to be plotted. Otherwise, plots the distribution without removing the missing values, but doesn't calculates the percentiles. |default| :code:`True`
+    :type drop_na: bool, optional
 
-    :param hue_labels: Possible classes of the binary target. It expects the positive class followed by the negative class.
-    :type hue_labels: list, optional
+    :param hue: A string indicating the dataframe's column name containing the categories. |default| :code:`None`
+    :type hue: str, optional
+
+    :param hue_labels: Possible classes of the binary target. It expects the positive class followed by the negative class. |default| :code:`None`
+    :type hue_labels: Dict, optional
+
+    :param colors: A list containing the hexadecimal colors of each hue. The number of elements on the list must be the same of hue groups. |default| :code:`None`
+    :type colors: list of str, optional
+
+    :param color_palette:  If colors parameter is None, uses the color_palette to set different colors of the palette for each hue value. |default| :code:`'pastel'`
+    :type color_palette: str, optional
+
+    :param plot_title: Text to describe the plot's title. |default| :code:`None`
+    :type plot_title: str, optional
+
+    :param percentiles: A tuple that indicates the percentiles of the distributions. |default| :code:`(25, 50, 75)`
+    :type percentiles: tuple, optional
+
+    :param percentiles_title: A string to be used to indicate the percentiles. |default| :code:`Percentiles`
+    :type percentiles_title: str, optional
+
+    :param mark_percentiles: If True, shows the percentiles defined in parameter percentiles. |default| :code:`True`
+    :type mark_percentiles: bool, optional
+
+    :param show_percentile_table: If True, shows a table with the values for each percentile and category. |default| :code:`False`
+    :type show_percentile_table: bool, optional
 
     :param figsize: A tuple that indicates the figure size (respectively, width and height in inches). |default| :code:`(16, 7)`
     :type figsize: tuple, optional
 
-    :param percentiles: A tuple that indicates the percentiles |default| :code:`(25, 50, 75)`
-    :type percentiles: tuple, optional
+    :param legend_kwargs: Matplotlib.pyplot's legend arguments such as *bbox_to_anchor* and *ncol*. Further informations `here <http://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.legend>`_.
+    :type legend_kwargs: key, value mappings
 
-    :param mark_percentiles: If True, shows the percentiles defined in param percentiles. |default| :code:`True`
-    :type mark_percentiles: bool, optional
-
+    :return: Returns the figure object with the plot
+    :rtype: Figure
     """
     data = df.copy()
 
+    if data[column_to_plot].isnull().values.any():
+        warnings.warn(f'Column "{column_to_plot}" has missing values! If the parameter drop_na is True (which is the '
+                      f'default value), the missing values will be removed.')
+
     if drop_na:
-        data = data.dropna()
+        data = data.dropna(subset=[column_to_plot])
 
     fig, axes = plt.subplots(1, 1, figsize=figsize)
     fig.subplots_adjust(hspace=0.5)
