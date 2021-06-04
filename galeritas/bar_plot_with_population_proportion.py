@@ -7,7 +7,7 @@ from galeritas.utils.creditas_palette import get_palette
 __all__ = ["bar_plot_with_population_proportion"]
 
 
-def bar_plot_with_population_proportion(data, x, y, title,
+def bar_plot_with_population_proportion(data, x, y,
                                         func=np.median,
                                         circle_diameter=150,
                                         split_variable=False,
@@ -25,6 +25,7 @@ def bar_plot_with_population_proportion(data, x, y, title,
                                         population_legend='Population %',
                                         up_label='Positive values',
                                         down_label='Negative values',
+                                        plot_title=None,
                                         figsize=(16, 7),
                                         **legend_kwargs):
     """
@@ -43,9 +44,6 @@ def bar_plot_with_population_proportion(data, x, y, title,
 
     :param y: A string indicating the dataframe's column name of the y-axis variable. It will be treated as a numeric variable in which an aggregation function (defined in func parameter) will be applied.
     :type y: str
-
-    :param title: Text to describe the plot's title.
-    :type title: str
 
     :param func: Aggregation function to be applied in the y-axis variable. The default function is to calculate the median, but other functions are accepted (see `here <http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.agg.html>`_). |default| :code:`np.median`
     :type func: function, optional
@@ -98,6 +96,9 @@ def bar_plot_with_population_proportion(data, x, y, title,
     :param down_label: Text to describe the down bars. It will only be showed if split_variable is True. |default| :code:`Negative values`
     :type down_label: str, optional
 
+    :param plot_title: Text to describe the plot's title. |default| :code:`None`
+    :type plot_title: str, optional
+
     :param figsize: A tuple that indicates the figure size (respectively, width and height in inches). |default| :code:`(16, 7)`
     :type figsize: tuple, optional
 
@@ -117,6 +118,12 @@ def bar_plot_with_population_proportion(data, x, y, title,
     if color_palette:
         colors = sns.color_palette(color_palette, 3)
 
+    if colors is not None:
+        if split_variable and len(colors) < 3:
+            raise KeyError(f'Expected 3 colors but only {len(colors)} was/were passed.')
+        elif len(colors) < 2:
+            raise KeyError(f'Expected 2 colors but only {len(colors)} was/were passed.')
+
     categories_names = ['df_up', 'population', 'df_down']
 
     colormap = dict(zip(categories_names, colors))
@@ -126,7 +133,7 @@ def bar_plot_with_population_proportion(data, x, y, title,
     _set_ticks_and_annotation(data, x, y, func, ax, circle_diameter, colormap, proportion_format, show_qty, qty_label,
                               proportion_label, show_population_func, population_func_legend, population_format)
 
-    _set_titles_and_labels(ax, colormap, title, population_legend, x, y, y_label, x_label, **legend_kwargs)
+    _set_titles_and_labels(ax, colormap, plot_title, population_legend, x, y, y_label, x_label, **legend_kwargs)
 
     plt.close()
 
@@ -199,8 +206,8 @@ def _set_ticks_and_annotation(data, x, y, func, ax, circle_diameter, colormap, p
     ax.set_ylim(bottom=bottom_y_lim)
 
 
-def _set_titles_and_labels(ax, colormap, title, population_legend, x, y, y_label, x_label, **legend_kwargs):
-    ax.set_title(title)
+def _set_titles_and_labels(ax, colormap, plot_title, population_legend, x, y, y_label, x_label, **legend_kwargs):
+    ax.set_title(plot_title)
 
     handles, labels = ax.get_legend_handles_labels()
 
