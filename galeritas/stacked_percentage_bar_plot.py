@@ -8,12 +8,14 @@ __all__ = ["stacked_percentage_bar_plot"]
 
 
 def stacked_percentage_bar_plot(
-        data,
+        df,
         categorical_feature,
         hue,
         hue_labels=None,
         plot_title=None,
         annotate=False,
+        show_na=True,
+        na_label='Null',
         colors=None,
         color_palette=None,
         figsize=(16, 7),
@@ -24,8 +26,8 @@ def stacked_percentage_bar_plot(
     It will generate a bar for each given category and inside each bar, will stack each group on the top of the other,
     showing each group representation (proportionally) for each category.
 
-    :param data: A dataframe containing the dataset.
-    :type data: DataFrame
+    :param df: A dataframe containing the dataset.
+    :type df: DataFrame
 
     :param categorical_feature: A string indicating the dataframe's column name that will be used to create each plot's bar representing a category.
     :type categorical_feature: str
@@ -41,6 +43,12 @@ def stacked_percentage_bar_plot(
 
     :param annotate: If True, shows the amount of rows of each hue group inside each category. |default| :code:`False`
     :type annotate: bool, optional
+
+    :param show_na: If True, shows the missing values for both hue group and categories. |default| :code:`True`
+    :type show_na: bool, optional
+
+    :param na_label: The label used to identify the missing values. |default| :code:`'Null'`
+    :type na_label: str, optional
 
     :param colors: A list containing the hexadecimal colors of each hue. The number of elements on the list must be the same of hue groups. |default| :code:`None`
     :type colors: list of str, optional
@@ -58,6 +66,13 @@ def stacked_percentage_bar_plot(
     :rtype: Figure
 
     """
+    data = df.copy()
+
+    if show_na:
+        data[categorical_feature] = data[categorical_feature].fillna(na_label)
+        data[hue] = data[hue].fillna(na_label)
+    else:
+        data = data.dropna(subset=[categorical_feature, hue])
 
     crosstab_df, percentage_crosstab_df = _calculate_percentages(data, categorical_feature, hue)
     categories_names = list(percentage_crosstab_df.columns)

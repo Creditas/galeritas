@@ -16,7 +16,7 @@ def test_should_generate_stacked_percentage_bar_plot_correctly(load_data):
 
     return stacked_percentage_bar_plot(
         categorical_feature='legs',
-        data=df,
+        df=df,
         hue='type',
         plot_title='Zoo',
         annotate=True,
@@ -31,7 +31,7 @@ def test_should_return_figure_with_axes(load_data):
 
     fig = stacked_percentage_bar_plot(
         categorical_feature='legs',
-        data=df,
+        df=df,
         hue='type',
         plot_title='Zoo',
         annotate=True,
@@ -49,7 +49,7 @@ def test_should_raise_exception_when_colors_is_smaller_number_categories(load_da
     with pytest.raises(KeyError):
         stacked_percentage_bar_plot(
             categorical_feature='legs',
-            data=df,
+            df=df,
             hue='type',
             colors=['blue']
         )
