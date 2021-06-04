@@ -48,7 +48,7 @@ def plot_ecdf_curve(
     :param colors: A list containing the hexadecimal colors of each hue. The number of elements on the list must be the same of hue groups. |default| :code:`None`
     :type colors: list of str, optional
 
-    :param color_palette:  If colors parameter is None, uses the color_palette to set different colors of the palette for each hue value. |default| :code:`None`
+    :param color_palette:  If colors parameter is None, uses the color_palette to set different colors of the palette for each hue value.  If both colors and color_palette parameters are None, then uses the default palette of the library. |default| :code:`None`
     :type color_palette: str, optional
 
     :param plot_title: Text to describe the plot's title. |default| :code:`None`
@@ -117,6 +117,9 @@ def plot_ecdf_curve(
         y_values_list.pop(0)
     else:
         hue_categories_labels = [column_to_plot]
+
+    if colors is not None and len(hue_categories_labels) > len(colors):
+        raise KeyError(f'The number of colors passed by colors parameter is lower than the number of categories in "{hue}" column! Expected {len(hue_categories_labels)} colors but only {len(colors)} was/were passed.')
 
     if colors is None:
         colors = get_palette()

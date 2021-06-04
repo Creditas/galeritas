@@ -2,6 +2,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+from galeritas.utils.creditas_palette import get_palette
+import warnings
 
 __all__ = ["stacked_percentage_bar_plot"]
 
@@ -10,11 +12,11 @@ def stacked_percentage_bar_plot(
         data,
         categorical_feature,
         hue,
-        plot_title,
         hue_labels=None,
+        plot_title=None,
         annotate=False,
         colors=None,
-        color_palette='pastel',
+        color_palette=None,
         figsize=(16, 7),
         **legend_kwargs
 ):
@@ -32,11 +34,11 @@ def stacked_percentage_bar_plot(
     :param hue: A string indicating the dataframe's column name of the groups that will be stack for each category.
     :type hue: str
 
-    :param plot_title: Text to describe the plot's title
-    :type plot_title: str
-
     :param hue_labels: A dictionary describing the labels of each hue group. If None, uses the values of the hue group in the dataframe. |default| :code:`None`
-    :type hue_labels: dict
+    :type hue_labels: dict, optional
+
+    :param plot_title: Text to describe the plot's title. |default| :code:`None`
+    :type plot_title: str, optional
 
     :param annotate: If True, shows the amount of rows of each hue group inside each category. |default| :code:`False`
     :type annotate: bool, optional
@@ -44,7 +46,7 @@ def stacked_percentage_bar_plot(
     :param colors: A list containing the hexadecimal colors of each hue. The number of elements on the list must be the same of hue groups. |default| :code:`None`
     :type colors: list of str, optional
 
-    :param color_palette:  If colors parameter is None, uses the color_palette to set different colors of the palette for each hue value. |default| :code:`'pastel'`
+    :param color_palette:  If colors parameter is None, uses the color_palette to set different colors of the palette for each hue value. If both colors and color_palette parameters are None, then uses the default palette of the library. |default| :code:`'pastel'`
     :type color_palette: str, optional
 
     :param figsize: A tuple that indicates the figure size (respectively, width and height in inches). |default| :code:`(16, 7)`
@@ -63,7 +65,13 @@ def stacked_percentage_bar_plot(
     label_names = tuple(percentage_crosstab_df.index)
     bar_bottom_position = np.zeros(percentage_crosstab_df.shape[0])
 
+    if colors is not None and len(categories_names) > len(colors):
+        raise KeyError(f'The number of colors passed by colors parameter is lower than the number of categories in "{hue}" column! Expected {len(categories_names)} colors but only {len(colors)} was/were passed.')
+
     if colors is None:
+        colors = get_palette(n_colors=len(categories_names))
+
+    if color_palette:
         colors = sns.color_palette(color_palette, len(categories_names))
 
     colormap = dict(zip(categories_names, colors))
