@@ -11,7 +11,7 @@ def load_data():
 
 
 @pytest.mark.mpl_image_compare
-def test_should_generate_plot_correctly(load_data):
+def test_should_generate_plot_ecdf_curve_correctly(load_data):
     df = load_data
 
     return plot_ecdf_curve(
@@ -48,4 +48,16 @@ def test_should_raise_warning_about_missing_values(load_data):
         plot_ecdf_curve(
             df=df,
             column_to_plot='age'
+        )
+
+
+def test_should_raise_exception_when_colors_is_smaller_number_categories(load_data):
+    df = load_data
+
+    with pytest.raises(KeyError):
+        plot_ecdf_curve(
+            df=df,
+            column_to_plot='fare',
+            hue='pclass',
+            colors=['blue']
         )

@@ -3,7 +3,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from galeritas.utils.creditas_palette import get_palette
-import warnings
 
 __all__ = ["stacked_percentage_bar_plot"]
 
@@ -66,7 +65,7 @@ def stacked_percentage_bar_plot(
     bar_bottom_position = np.zeros(percentage_crosstab_df.shape[0])
 
     if colors is not None and len(categories_names) > len(colors):
-        raise KeyError(f'The number of colors passed by colors parameter is lower than the number of categories in "{hue}" column! Expected {len(categories_names)} colors but only {len(colors)} was/were passed.')
+        raise KeyError(f'The number of colors passed by colors parameter is smaller than the number of categories in "{hue}" column! Expected {len(categories_names)} colors but only {len(colors)} was/were passed.')
 
     if colors is None:
         colors = get_palette(n_colors=len(categories_names))

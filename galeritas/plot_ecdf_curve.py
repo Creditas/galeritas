@@ -119,7 +119,7 @@ def plot_ecdf_curve(
         hue_categories_labels = [column_to_plot]
 
     if colors is not None and len(hue_categories_labels) > len(colors):
-        raise KeyError(f'The number of colors passed by colors parameter is lower than the number of categories in "{hue}" column! Expected {len(hue_categories_labels)} colors but only {len(colors)} was/were passed.')
+        raise KeyError(f'The number of colors passed by colors parameter is smaller than the number of categories in "{hue}" column! Expected {len(hue_categories_labels)} colors but only {len(colors)} was/were passed.')
 
     if colors is None:
         colors = get_palette()
