@@ -7,9 +7,11 @@ from galeritas.utils.creditas_palette import get_palette
 __all__ = ["bar_plot_with_population_proportion"]
 
 
-def bar_plot_with_population_proportion(data, x, y,
+def bar_plot_with_population_proportion(df, x, y,
                                         func=np.median,
                                         show_error_bar=True,
+                                        show_na=True,
+                                        na_label='Null',
                                         circle_diameter=150,
                                         split_variable=False,
                                         colors=None,
@@ -37,8 +39,8 @@ def bar_plot_with_population_proportion(data, x, y,
     function of the categorical variable.
     This can be controlled with the split_variable parameter.
 
-    :param data: A dataframe containing the dataset.
-    :type data: DataFrame
+    :param df: A dataframe containing the dataset.
+    :type df: DataFrame
 
     :param x: A string indicating the dataframe's column name of the x-axis variable. It will be treated as a categorical variable.
     :type x: str
@@ -51,6 +53,12 @@ def bar_plot_with_population_proportion(data, x, y,
 
     :param show_error_bar: If True, shows the default confidence intervals estimated by Seaborn (for more information, see this `link <https://seaborn.pydata.org/generated/seaborn.barplot.html>`_ with Seaborn's barplot documentation). |default| :code:`True`
     :type show_error_bar: bool, optional
+
+    :param show_na: If True, shows the missing values in the column passed by x parameter. |default| :code:`True`
+    :type show_na: bool, optional
+
+    :param na_label: The label used to identify the missing values in the column passed by x parameter. |default| :code:`'Null'`
+    :type na_label: str, optional
 
     :param circle_diameter: Base circle diameter of the percentage dots. You might want to decrease it if there's a category in the x-axis variable that accounts a big proportion of the dataset (e.g. 80%). |default| :code:`150`
     :type circle_diameter: int, optional
@@ -113,6 +121,15 @@ def bar_plot_with_population_proportion(data, x, y,
     :rtype: Figure
 
     """
+    data = df.copy()
+
+    if show_na:
+        data[x] = data[x].fillna(na_label)
+    else:
+        data = data.dropna(subset=[x])
+
+    data[x] = data[x].astype('str')
+    data = data.sort_values(by=x)
 
     fig, ax = plt.subplots(figsize=figsize, dpi=120)
 
