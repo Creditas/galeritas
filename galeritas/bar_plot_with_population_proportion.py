@@ -9,6 +9,7 @@ __all__ = ["bar_plot_with_population_proportion"]
 
 def bar_plot_with_population_proportion(data, x, y,
                                         func=np.median,
+                                        show_error_bar=True,
                                         circle_diameter=150,
                                         split_variable=False,
                                         colors=None,
@@ -47,6 +48,9 @@ def bar_plot_with_population_proportion(data, x, y,
 
     :param func: Aggregation function to be applied in the y-axis variable. The default function is to calculate the median, but other functions are accepted (see `here <http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.agg.html>`_). |default| :code:`np.median`
     :type func: function, optional
+
+    :param show_error_bar: If True, shows the default confidence intervals estimated by Seaborn (for more information, see this `link <https://seaborn.pydata.org/generated/seaborn.barplot.html>`_ with Seaborn's barplot documentation). |default| :code:`True`
+    :type show_error_bar: bool, optional
 
     :param circle_diameter: Base circle diameter of the percentage dots. You might want to decrease it if there's a category in the x-axis variable that accounts a big proportion of the dataset (e.g. 80%). |default| :code:`150`
     :type circle_diameter: int, optional
@@ -128,7 +132,7 @@ def bar_plot_with_population_proportion(data, x, y,
 
     colormap = dict(zip(categories_names, colors))
 
-    _plot_bars(data, x, y, func, split_variable, ax, colormap, up_label, down_label, x_label)
+    _plot_bars(data, x, y, func, split_variable, ax, colormap, up_label, down_label, x_label, show_error_bar)
 
     _set_ticks_and_annotation(data, x, y, func, ax, circle_diameter, colormap, proportion_format, show_qty, qty_label,
                               proportion_label, show_population_func, population_func_legend, population_format)
@@ -140,30 +144,26 @@ def bar_plot_with_population_proportion(data, x, y,
     return fig
 
 
-def _plot_bars(data, x, y, func, split_variable, ax, colormap, up_label, down_label, x_label):
+def _plot_bars(data, x, y, func, split_variable, ax, colormap, up_label, down_label, x_label, show_error_bar):
+    if show_error_bar:
+        error_bar = 95
+    else:
+        error_bar = None
+
     if split_variable:
         df_up = data[(data[y] >= 0)]
         df_down = data[(data[y] < 0)]
 
         if len(df_up) == 0:
-            raise ValueError("No positive values found!")
+            raise ValueError(f'No positive values found in "{y}" column!')
 
         if len(df_down) == 0:
-            raise ValueError("No negative values found!")
+            raise ValueError(f'No negative values found in "{y}" column!')
 
-        df_grouped_up = df_up.groupby(x)[y].agg(func).reset_index()
-        df_grouped_up.columns = [x, "y_var"]
-
-        df_grouped_down = df_down.groupby(x)[y].agg(func).reset_index()
-        df_grouped_down.columns = [x, "y_var"]
-
-        sns.barplot(x=x, y="y_var", data=df_grouped_up, ax=ax, color=colormap['df_up'], label=up_label)
-        sns.barplot(x=x, y="y_var", data=df_grouped_down, ax=ax, color=colormap['df_down'], label=down_label)
+        sns.barplot(x=x, y=y, data=df_up, ax=ax, estimator=func, ci=error_bar, color=colormap['df_up'], label=up_label)
+        sns.barplot(x=x, y=y, data=df_down, ax=ax, estimator=func, ci=error_bar, color=colormap['df_down'], label=down_label)
     else:
-        df_grouped = data.groupby(x)[y].agg(func).reset_index()
-        df_grouped.columns = [x, "y_var"]
-
-        sns.barplot(x=x, y="y_var", data=df_grouped, ax=ax, color=colormap['df_up'], label=x_label)
+        sns.barplot(x=x, y=y, data=data, ax=ax, estimator=func, ci=error_bar, color=colormap['df_up'], label=x_label)
 
 
 def _set_ticks_and_annotation(data, x, y, func, ax, circle_diameter, colormap, proportion_format, show_qty, qty_label,
