@@ -1,10 +1,7 @@
-import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 import bisect
-from sklearn.utils import resample
-from scipy.stats import mstats
 
 import warnings
 
@@ -15,7 +12,7 @@ global thresholds
 thresholds = np.linspace(0, 1, 1000)
 
 
-def threshold_confidence_interval(predictions_with_target, target_name, target=1, n_trials=50, sample_size_percent=0.5):
+def threshold_confidence_interval(predictions_with_target, target_name, prediction_column_name, target=1, n_trials=50, sample_size_percent=0.5):
     plot_data = []
 
     for trial in range(n_trials):
@@ -23,7 +20,7 @@ def threshold_confidence_interval(predictions_with_target, target_name, target=1
         plot_data.append(
             calculate_precision_recall_support_by_threshold(
                 predictions_sample[target_name],
-                predictions_sample['pred'],
+                predictions_sample[prediction_column_name],
                 target
             )
         )

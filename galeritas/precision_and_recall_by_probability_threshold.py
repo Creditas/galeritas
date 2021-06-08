@@ -5,7 +5,7 @@ import numpy as np
 from scipy.stats import mstats
 
 from galeritas.precision_recall_threshold_confidence_interval_aux import (threshold_confidence_interval,
-                                                                _get_threshold_metrics_intervals)
+                                                                          _get_threshold_metrics_intervals)
 
 from galeritas.utils.creditas_palette import get_palette
 
@@ -13,8 +13,17 @@ from galeritas.utils.creditas_palette import get_palette
 sns.set_palette(get_palette())
 
 
-def plot_precision_and_recall_by_probability_threshold(predictions_with_target, target_name, target=1, n_trials=50, sample_size_percent=0.5,
-                                         quantiles=[0.05, 0.5, 0.95], figsize=(20, 10), title=None, thresholds_to_highlight=None):
+def plot_precision_and_recall_by_probability_threshold(
+        predictions_with_target,
+        target_name,
+        prediction_column_name,
+        target=1,
+        n_trials=50,
+        sample_size_percent=0.5,
+        quantiles=[0.05, 0.5, 0.95],
+        figsize=(20, 10),
+        title=None,
+        thresholds_to_highlight=None):
     """
         Determines precision, recall e support scores for different thresholds for the positive class, using a data sample with
         replacement.
@@ -22,20 +31,24 @@ def plot_precision_and_recall_by_probability_threshold(predictions_with_target, 
         https://blog.insightdatascience.com/visualizing-machine-learning-thresholds-to-make-better-business-decisions-4ab07f823415
         Parameters
         ----------
-        test_data : DataFrame, shape (n_samples, n_features)
-            Test dataframe, where n_samples is the number of samples and
-            n_features is the number of features. Has to contain the target variable;
+        predictions_with_target: DataFrame
+            Dataframe containing predictions and target columns
         target_name : string
             String that indicates the target name
-        model : object type that implements the "fit" and "predict" methods.
+        prediction_column_name: string
+            String that indicates the name of the columns where the predictions are
         target: int
             Indicates the target class.
         n_trials : int
             Indicates the number of times to resample the data and make predictions.
-        test_size_percent : float
+        sample_size_percent : float
             Indicates the percentage of the dataset that needs to be used to perform the sample data
         quantiles : array
             Indicates the upper, median and lower quantiles to be used to plot the graph.
+        figsize: tuple
+            Tuple with (weight, height) dimensions
+        title: string
+            Plot title
         thresholds_to_highlight: array
             Indicates the score(s) where the thresholds will be drawn
     """
@@ -44,6 +57,7 @@ def plot_precision_and_recall_by_probability_threshold(predictions_with_target, 
         = threshold_confidence_interval(
         predictions_with_target,
         target_name,
+        prediction_column_name,
         target=target,
         n_trials=n_trials,
         sample_size_percent=sample_size_percent
@@ -138,4 +152,3 @@ def plot_precision_and_recall_by_probability_threshold(predictions_with_target, 
     plt.close()
 
     return fig
-
