@@ -1,12 +1,9 @@
-import matplotlib.pyplot as plt
-import seaborn as sns
 import numpy as np
 import bisect
 
 import warnings
 
 warnings.filterwarnings("ignore")
-
 
 global thresholds 
 thresholds = np.linspace(0, 1, 1000)
@@ -112,46 +109,3 @@ def _get_threshold_metrics_intervals(lower_precision, median_precision, upper_pr
         "Median Support Rate": median_support_rate_value,
         "Support Rate Range": f"{lower_support_rate_value} - {upper_support_rate_value}"
     }
-
-
-def split_between_x_and_y(df, target_name):
-    y = df[target_name]
-    X = df.drop(columns=[target_name])
-
-    return X, y
-
-
-def precision_recall_threshold_plot(y_test, y_pred_prob_test, target=1):
-    """
-        Determines precision and recall scores for different thresholds for the positive class.
-        Adapted from Insight Data Science's post:
-        https://blog.insightdatascience.com/visualizing-machine-learning-thresholds-to-make-better-business-decisions-4ab07f823415
-        Parameters
-        ----------
-        y_test : DataFrame, shape (n_samples, n_features)
-            Test dataframe, where n_samples is the number of samples and
-            n_features is the number of features.
-        y_pred_prob_test : array-like, shape (n_samples)
-            Value predicted by the classification model
-        target: int (Optional)
-            Indicates the target class.
-        """
-    precision, recall, thresholds, support, support_percent = calculate_precision_recall_support_by_threshold(
-        y_test,
-        y_pred_prob_test,
-        target
-    )
-
-    _ = plt.figure(figsize=(10, 7))
-    plt.plot(thresholds, precision, color=sns.color_palette()[0])
-    plt.plot(thresholds, recall, color=sns.color_palette()[1])
-    plt.plot(thresholds, support_percent, color=sns.color_palette()[2])
-
-    leg = plt.legend(('precision', 'recall', 'support'), frameon=True)
-    leg.get_frame().set_edgecolor('k')
-    plt.xticks(np.arange(0, 1.1, 0.1))
-    plt.yticks(np.arange(0, 1.01, 0.05))
-    plt.grid()
-    _ = plt.ylabel('%')
-    plt.xlabel('threshold')
-    _ = plt.ylabel('%')
