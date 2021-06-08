@@ -108,10 +108,7 @@ def stacked_percentage_bar_plot(
     ax.set_xlabel(categorical_feature)
     ax.set_ylabel("%")
 
-    if bool(legend_kwargs) is True:
-        ax.legend(**legend_kwargs)
-    else:
-        ax.legend(bbox_to_anchor=(1.11, 1.01))
+    ax.legend(loc='upper right', **legend_kwargs)
 
     plt.grid(True, alpha=0.9, linestyle='--', axis='y')
     

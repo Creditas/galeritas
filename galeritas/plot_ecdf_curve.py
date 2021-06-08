@@ -24,8 +24,7 @@ def plot_ecdf_curve(
         mark_percentiles=True,
         show_percentile_table=False,
         figsize=(16, 7),
-        **legend_kwargs
-):
+        **legend_kwargs):
     """
     Generates an empirical cumulative distribution function.
     Theorical Reference: https://en.wikipedia.org/wiki/Empirical_distribution_function
@@ -135,7 +134,7 @@ def plot_ecdf_curve(
         axes.plot(x_values, y_values, marker='.', markersize=4.5, alpha=0.7, linestyle='none',
                   label=hue_categories_labels[index], color=colormap[hue_categories_labels[index]])
 
-    axes.set_title(plot_title, weight='bold', fontsize=13)
+    axes.set_title(plot_title)
     axes.set_ylabel("ECDF")
     axes.set_xlabel(column_to_plot)
 
@@ -150,9 +149,20 @@ def plot_ecdf_curve(
                 markersize=8,
                 color=colormap[hue_categories_labels[index]],
                 linestyle='none',
-                label=f'{percentiles_title} {percentiles} - {hue_categories_labels[index]}'
+                label=f'{percentiles_title} - {hue_categories_labels[index]}'
             )
             percentiles_values.append(percentiles_calc)
+
+        plt.text(
+            0.05,
+            -0.15,
+            f"{percentiles_title} {percentiles}",
+            horizontalalignment='center',
+            verticalalignment='center',
+            bbox=dict(boxstyle='round', alpha=0.25, facecolor='gray')
+        )
+
+    plt.grid(True, alpha=0.6, linestyle='--')
 
     axes.legend(loc="lower right")
 
