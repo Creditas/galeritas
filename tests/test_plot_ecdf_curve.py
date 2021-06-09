@@ -16,9 +16,9 @@ def test_should_generate_plot_ecdf_curve_correctly(load_data):
 
     return plot_ecdf_curve(
         df=df,
-        column_to_plot='fare',
+        column_to_plot='predict_proba',
         hue='pclass',
-        plot_title='Fare distribution by PClass',
+        plot_title='Prediction distribution by PClass',
         figsize=(16, 6),
         percentiles=(25, 50, 75, 90),
         mark_percentiles=True
@@ -30,9 +30,9 @@ def test_should_return_figure_with_axes_ecdf(load_data):
 
     fig = plot_ecdf_curve(
         df=df,
-        column_to_plot='fare',
+        column_to_plot='predict_proba',
         hue='pclass',
-        plot_title='Fare distribution by PClass',
+        plot_title='Prediction distribution by PClass',
         figsize=(16, 6),
         percentiles=(25, 50, 75, 90),
         mark_percentiles=True
