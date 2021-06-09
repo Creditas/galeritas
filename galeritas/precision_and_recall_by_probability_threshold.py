@@ -3,28 +3,26 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 from scipy.stats import mstats
-
+from galeritas.utils.creditas_palette import get_palette
 from galeritas.precision_recall_threshold_confidence_interval_aux import (threshold_confidence_interval,
                                                                           _get_threshold_metrics_intervals)
-
-from galeritas.utils.creditas_palette import get_palette
-
-sns.set_palette(get_palette())
 
 
 def plot_precision_and_recall_by_probability_threshold(
         df,
-        target_name,
         prediction_column_name,
+        target_name,
         target=1,
         n_trials=50,
         sample_size_percent=0.5,
         quantiles=[0.05, 0.5, 0.95],
+        thresholds_to_highlight=None,
         x_label="Model probability threshold",
         y_label="Metric's Ratio",
-        figsize=(16, 7),
         plot_title=None,
-        thresholds_to_highlight=None,
+        colors=None,
+        color_palette=None,
+        figsize=(16, 7),
         **legend_kwargs):
     """
     Determines precision, recall e support scores for different thresholds for the positive class, using a data sample with
@@ -35,11 +33,11 @@ def plot_precision_and_recall_by_probability_threshold(
     :param df: Dataframe containing predictions and target columns.
     :type df: DataFrame
 
-    :param target_name: String that indicates the target name.
-    :type target_name: str
-
     :param prediction_column_name: String that indicates the name of the columns where the predictions are.
     :type prediction_column_name: str
+
+    :param target_name: String that indicates the target name.
+    :type target_name: str
 
     :param target: Indicates the target class. |default| :code:`1`
     :type target: int, optional
@@ -53,20 +51,26 @@ def plot_precision_and_recall_by_probability_threshold(
     :param quantiles: Indicates the upper, median and lower quantiles to be used to plot the graph. |default| :code:`[0.05, 0.5, 0.95]`
     :type quantiles: list, optional
 
+    :param thresholds_to_highlight: Indicates the score(s) where the thresholds will be drawn. |default| :code:`None`
+    :type thresholds_to_highlight: list, optional
+
     :param x_label: Text to describe the x-axis label. |default| :code:`"Model probability threshold"`
     :type x_label: str, optional
 
     :param y_label: Text to describe the y-axis label. |default| :code:`"Metric's Ratio"`
     :type y_label: str, optional
 
-    :param figsize: A tuple that indicates the figure size (respectively, width and height in inches). |default| :code:`(16, 7)`
-    :type figsize: tuple, optional
-
     :param plot_title: Text to describe the plot's title. |default| :code:`None`
     :type plot_title: str, optional
 
-    :param thresholds_to_highlight: Indicates the score(s) where the thresholds will be drawn. |default| :code:`None`
-    :type thresholds_to_highlight: list, optional
+    :param colors: A list containing the hexadecimal colors of each hue. The number of elements on the list must be the same of hue groups. |default| :code:`None`
+    :type colors: list of str, optional
+
+    :param color_palette: If this parameter is set, uses the color_palette to set different colors of the palette for each hue value. If both colors and color_palette parameters are None, uses Galeritas default palette. |default| :code:`None`
+    :type color_palette: str, optional
+
+    :param figsize: A tuple that indicates the figure size (respectively, width and height in inches). |default| :code:`(16, 7)`
+    :type figsize: tuple, optional
 
     :param legend_kwargs: Matplotlib.pyplot's legend arguments such as *bbox_to_anchor* and *ncol*. Further informations `here <http://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.legend>`__.
     :type legend_kwargs: key, value mappings
@@ -74,6 +78,22 @@ def plot_precision_and_recall_by_probability_threshold(
     :return: Returns the figure object with the plot
     :rtype: Figure
     """
+
+    if target_name not in [col for col in df if np.isin(df[col].unique(), [0, 1]).all()]:
+        raise ValueError(f'The target must be binary! Column "{target_name}" contains more values.')
+
+    if colors is None:
+        colors = get_palette()
+
+    if color_palette:
+        colors = sns.color_palette(color_palette, 3)
+
+    if colors is not None and len(colors) < 3:
+        raise KeyError(f'Expected 3 colors but only {len(colors)} was/were passed.')
+
+    metric_names = ['precision', 'recall', 'support_rate']
+
+    colormap = dict(zip(metric_names, colors))
 
     uniform_precision_plots, uniform_recall_plots, uniform_support_plots, uniform_support_rate_plots, uniform_thresholds \
         = threshold_confidence_interval(df,
@@ -90,14 +110,18 @@ def plot_precision_and_recall_by_probability_threshold(
                                                                      quantiles, axis=0)
     lower_support_rate, median_support_rate, upper_support_rate = mstats.mquantiles(uniform_support_rate_plots,
                                                                                     quantiles, axis=0)
-    fig, ax = plt.subplots(figsize=figsize, dpi=120)
-    plt.plot(uniform_thresholds, median_precision)
-    plt.plot(uniform_thresholds, median_recall)
-    plt.plot(uniform_thresholds, median_support_rate)
 
-    plt.fill_between(uniform_thresholds, upper_precision, lower_precision, alpha=0.5, linewidth=0)
-    plt.fill_between(uniform_thresholds, upper_recall, lower_recall, alpha=0.5, linewidth=0)
-    plt.fill_between(uniform_thresholds, upper_support_rate, lower_support_rate, alpha=0.5, linewidth=0)
+    fig, ax = plt.subplots(figsize=figsize, dpi=120)
+
+    plt.plot(uniform_thresholds, median_precision, color=colormap['precision'])
+    plt.plot(uniform_thresholds, median_recall, color=colormap['recall'])
+    plt.plot(uniform_thresholds, median_support_rate, color=colormap['support_rate'])
+
+    plt.fill_between(uniform_thresholds, upper_precision, lower_precision, alpha=0.5, linewidth=0,
+                     color=colormap['precision'])
+    plt.fill_between(uniform_thresholds, upper_recall, lower_recall, alpha=0.5, linewidth=0, color=colormap['recall'])
+    plt.fill_between(uniform_thresholds, upper_support_rate, lower_support_rate, alpha=0.5, linewidth=0,
+                     color=colormap['support_rate'])
 
     plt.legend(
         ('precision', 'recall', 'support'), frameon=True, **legend_kwargs
