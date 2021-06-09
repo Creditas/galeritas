@@ -13,7 +13,7 @@ def threshold_confidence_interval(predictions_with_target, target_name, predicti
     plot_data = []
 
     for trial in range(n_trials):
-        predictions_sample = predictions_with_target.sample(frac=sample_size_percent)
+        predictions_sample = predictions_with_target.sample(frac=sample_size_percent, random_state=42+trial)
         plot_data.append(
             calculate_precision_recall_support_by_threshold(
                 predictions_sample[target_name],
