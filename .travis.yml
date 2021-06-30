@@ -3,7 +3,7 @@ python:
 - '3.6.9'
 install: pip install -e .
 script:
-- pip install -r requirements.txt
+- pipenv install
 deploy:
   provider: pypi
   username: creditas
