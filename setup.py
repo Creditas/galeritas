@@ -6,7 +6,7 @@ from setuptools.command.install import install
 with open("README.md", "r") as readme_file:
     long_description = readme_file.read()
 
-VERSION = "0.1.1"
+VERSION = "0.1.2"
 
 class VerifyVersionCommand(install):
     """Custom command to verify that the git tag matches our version"""
@@ -24,8 +24,7 @@ class VerifyVersionCommand(install):
 setup(
     name='galeritas',
     version=VERSION,
-    packages=find_packages(where='galeritas'),
-    package_dir={'': 'galeritas'},
+    packages=find_packages(),
     python_requires='>=3.6.9',
     install_requires=[
         'numpy>=1.15',
