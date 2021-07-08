@@ -10,7 +10,7 @@ jobs:
           command: |
             python3 -m venv venv
             . venv/bin/activate
-            # python setup.py verify
+            python setup.py verify
       - run:
           name: init .pypirc
           command: |
@@ -31,6 +31,7 @@ workflows:
     jobs:
       - upload_pipy:
           filters:
+            tags:
+              only: /[0-9]+(\.[0-9]+)*/
             branches:
-              only:
-                - test
+              ignore: /.*/
