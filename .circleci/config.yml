@@ -31,9 +31,7 @@ workflows:
   version: 2
   deploy_schemas:
     jobs:
-      - deploy_to_production:
-          requires:
-            - upload_pipy
+      - upload_pipy:
           filters:
             branches:
               only:
