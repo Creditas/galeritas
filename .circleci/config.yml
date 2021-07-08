@@ -15,16 +15,14 @@ jobs:
           name: init .pypirc
           command: |
             echo -e "[pypi]" >> ~/.pypirc
-            echo -e "username = aureliosaraiva" >> ~/.pypirc
+            echo -e "username = creditas" >> ~/.pypirc
             echo -e "password = $PYPI_PASSWORD" >> ~/.pypirc
-      - run:
-          name: create packages
-          command: |
-            make package
       - run:
           name: upload to pypi
           command: |
             . venv/bin/activate
+            pip install wheel
+            python setup.py bdist_wheel
             twine upload dist/*
 
 workflows:
