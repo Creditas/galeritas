@@ -27,8 +27,8 @@ def plot_precision_and_recall_by_probability_threshold(
     """
     Determines precision, recall e support scores for different thresholds for the positive class, using a data sample with
     replacement.
-    Adapted from Insight Data Science's post:
-    https://blog.insightdatascience.com/visualizing-machine-learning-thresholds-to-make-better-business-decisions-4ab07f823415
+
+    Adapted from `Insight Data Science's post <https://blog.insightdatascience.com/visualizing-machine-learning-thresholds-to-make-better-business-decisions-4ab07f823415>`__.
 
     :param df: Dataframe containing predictions and target columns.
     :type df: DataFrame

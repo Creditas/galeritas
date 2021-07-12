@@ -27,7 +27,7 @@ def plot_ecdf_curve(
         **legend_kwargs):
     """
     Generates an empirical cumulative distribution function.
-    Theorical Reference: https://en.wikipedia.org/wiki/Empirical_distribution_function
+    Theorical Reference can be found `here <https://en.wikipedia.org/wiki/Empirical_distribution_function>`__.
 
     :param df: A dataframe containing the dataset.
     :type df: DataFrame
