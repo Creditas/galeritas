@@ -1,6 +1,8 @@
 # Galeritas
 
 
+[![PyPI](https://img.shields.io/pypi/v/galeritas?color=blue)](https://pypi.org/project/galeritas/)
+[![Documentation Status](https://readthedocs.org/projects/galeritas/badge/?version=latest)](https://galeritas.readthedocs.io/en/latest/?badge=latest)
 [![License](https://img.shields.io/badge/License-Apache%202.0-lightgrey)](https://opensource.org/licenses/Apache-2.0)
 
 **Galeritas** is an open library for data visualization.
