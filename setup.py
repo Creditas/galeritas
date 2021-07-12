@@ -30,7 +30,6 @@ setup(
         'numpy>=1.15',
         'scipy>=1.4.1',
         'pandas>=1.0.3',
-        'jupyter>=1.0.0',
         'scikit-learn>=0.20.4',
         'seaborn>=0.11.0',
         'pytest>=6.1.2',
