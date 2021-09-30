@@ -31,6 +31,7 @@ body:
       If applicable, add screenshots to help explain the expected behaviour.
     placeholder: >
       Example: The legend shouldn't appear above plot elements.
+      
       ![image_text](image_url)
   validations:
     required: true
@@ -44,6 +45,7 @@ body:
       Also, if applicable add screenshots to help explain the actual behaviour.
     placeholder: >
       Example: The legend is appearing above the last bar of the plot and I can't change it to other place.
+      
       ![image_text](image_url)
   validations:
     required: true
