@@ -1,0 +1,37 @@
+name: Documentation improvement
+description: Create a report to help us improve the documentation
+title: "[Documentation improvement] "
+labels: ["documentation", "triage"]
+
+body:
+- type: markdown
+  attributes:
+    value: >
+      Thanks for contributing with Galeritas by taking your time to fill out this report! 💚
+
+
+      :warning:️ **Before submitting a documentation improvement, please make sure the issue (or a similar one) hasn't been already
+      addressed by searching through [the past issues](https://github.com/Creditas/galeritas/issues).** :warning:️
+- type: textarea
+  id: documentation_issue
+  attributes:
+    label: Describe the documentation issue
+    description: >
+      Describe the issue linked to the [documentation](https://galeritas.readthedocs.io) (explain more about the issue you found, if it's a missing documentation,
+      a improvement or about something that is confusing).
+    placeholder: >
+      Example: The documentation doesn't explains that the parameter x of `bar_plot_with_population_proportion` function is required.
+  validations:
+    required: true
+- type: textarea
+  id: alternatives
+  attributes:
+    label: Suggest a potential alternative/fix
+    description: Tell us how we could improve the documentation in this regard.
+    placeholder: >
+      Example: We should explain that the parameter z allows only numeric values.
+- type: textarea
+  id: other-comments
+  attributes:
+    label: Any other comments?
+    description: Please feel free to add any other context or screenshots about the documentation improvement here.
