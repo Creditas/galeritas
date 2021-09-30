@@ -51,7 +51,7 @@ body:
     id: reprodutibility
     attributes:
       label: Steps/Code to Reproduce
-      description: |
+      description: >
       Tell us how to reproduce this issue. Please add a minimal example that we can reproduce the error and get the same result as you by running the code.
       Be as succinct as possible and do not depend on private data. Below, we have a code example.
 
