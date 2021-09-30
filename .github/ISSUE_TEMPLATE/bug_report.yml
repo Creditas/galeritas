@@ -52,29 +52,29 @@ body:
     attributes:
       label: Steps/Code to Reproduce
       description: >
-      Tell us how to reproduce this issue. Please add a minimal example that we can reproduce the error and get the same result as you by running the code.
-      Be as succinct as possible and do not depend on private data. Below, we have a code example.
+        Tell us how to reproduce this issue. Please add a minimal example that we can reproduce the error and get the same result as you by running the code.
+        Be as succinct as possible and do not depend on private data. Below, we have a code example.
 
-      ```python
-          import seaborn as sns
-          from galeritas import bar_plot_with_population_proportion
+        ```python
+            import seaborn as sns
+            from galeritas import bar_plot_with_population_proportion
 
-          df = sns.load_dataset("penguins")
+            df = sns.load_dataset("penguins")
 
-          bar_plot_with_population_proportion(
-              df,
-              x='species',
-              y='body_mass_g',
-              plot_title='Distribuição da massa (g) por espécie',
-              figsize=(12, 6)
-          )
-      ```
+            bar_plot_with_population_proportion(
+                df,
+                x='species',
+                y='body_mass_g',
+                plot_title='Distribuição da massa (g) por espécie',
+                figsize=(12, 6)
+            )
+        ```
 
-      If the code is too long, feel free to put it in a public gist and link it in the issue: https://gist.github.com.
-    placeholder: |
-      ```
-      Sample code to reproduce the problem
-      ```
+        If the code is too long, feel free to put it in a public gist and link it in the issue: https://gist.github.com.
+      placeholder: |
+        ```
+        Sample code to reproduce the problem
+        ```
   validations:
     required: true
   - type: textarea
