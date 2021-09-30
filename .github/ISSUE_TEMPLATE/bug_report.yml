@@ -4,103 +4,103 @@ title: "[Bug]: "
 labels: ["bug", "triage"]
 
 body:
-  - type: markdown
-    attributes:
-      value: >
-        Thanks for contributing with Galeritas by taking your time to fill out this bug report!💚
+- type: markdown
+  attributes:
+    value: >
+      Thanks for contributing with Galeritas by taking your time to fill out this bug report!💚
 
-        :warning:️ #### Before submitting a bug, please make sure the issue (or a similar one) hasn't been already
-        addressed by searching through [the past issues](https://github.com/Creditas/galeritas/issues).
-  - type: textarea
-    id: bug-description
-    attributes:
-      label: Describe the bug
-      description: >
-        A clear and concise description of what the bug is.
-      placeholder: >
-        Example: I'm having a problem with the function `bar_plot_with_population_proportion` since the legend is appearing above
-        plot elements and I can't change it.
-    validations:
-      required: true
-  - type: textarea
-    id: expected-results
-    attributes:
-      label: Expected Results
-      description: >
-        What were you expecting to happen? Please paste or describe the expected results.
-        If applicable, add screenshots to help explain the expected behaviour.
-      placeholder: >
-        Example: The legend shouldn't appear above plot elements.
-        ![image_text](image_url)
-    validations:
-      required: true
-  - type: textarea
-    id: actual-results
-    attributes:
-      label: Actual Results
-      description: >
-        Tell us what happens instead! Please paste or specifically describe the results you observe instead of the expected results.
-        If you observe an error, please paste the error message including the **full** traceback of the exception.
-        Also, if applicable add screenshots to help explain the actual behaviour.
-      placeholder: >
-        Example: The legend is appearing above the last bar of the plot and I can't change it to other place.
-        ![image_text](image_url)
-    validations:
-      required: true
-  - type: textarea
-    id: reprodutibility
-    attributes:
-      label: Steps/Code to Reproduce
-      description: >
-        Tell us how to reproduce this issue. Please add a minimal example that we can reproduce the error and get the same result as you by running the code.
-        Be as succinct as possible and do not depend on private data. Below, we have a code example.
-
-        ```python
-            import seaborn as sns
-            from galeritas import bar_plot_with_population_proportion
-
-            df = sns.load_dataset("penguins")
-
-            bar_plot_with_population_proportion(
-                df,
-                x='species',
-                y='body_mass_g',
-                plot_title='Distribuição da massa (g) por espécie',
-                figsize=(12, 6)
-            )
-        ```
-
-        If the code is too long, feel free to put it in a public gist and link it in the issue: https://gist.github.com.
-      placeholder: |
-        ```
-        Sample code to reproduce the problem
-        ```
+      :warning:️ #### Before submitting a bug, please make sure the issue (or a similar one) hasn't been already
+      addressed by searching through [the past issues](https://github.com/Creditas/galeritas/issues).
+- type: textarea
+  id: bug-description
+  attributes:
+    label: Describe the bug
+    description: >
+      A clear and concise description of what the bug is.
+    placeholder: >
+      Example: I'm having a problem with the function `bar_plot_with_population_proportion` since the legend is appearing above
+      plot elements and I can't change it.
   validations:
     required: true
-  - type: textarea
-    id: environment
-    attributes:
-      label: Your environment
-      description: What version of galeritas you're using (and the versions of other dependencies as well) and the OS and Python versions you're running it on
-      placeholder:
-        Packages:
-        - galeritas: 0.1.3
-        - matplotlib: 3.4.0
-        - seaborn: 0.11.1
+- type: textarea
+  id: expected-results
+  attributes:
+    label: Expected Results
+    description: >
+      What were you expecting to happen? Please paste or describe the expected results.
+      If applicable, add screenshots to help explain the expected behaviour.
+    placeholder: >
+      Example: The legend shouldn't appear above plot elements.
+      ![image_text](image_url)
+  validations:
+    required: true
+- type: textarea
+  id: actual-results
+  attributes:
+    label: Actual Results
+    description: >
+      Tell us what happens instead! Please paste or specifically describe the results you observe instead of the expected results.
+      If you observe an error, please paste the error message including the **full** traceback of the exception.
+      Also, if applicable add screenshots to help explain the actual behaviour.
+    placeholder: >
+      Example: The legend is appearing above the last bar of the plot and I can't change it to other place.
+      ![image_text](image_url)
+  validations:
+    required: true
+- type: textarea
+  id: reprodutibility
+  attributes:
+    label: Steps/Code to Reproduce
+    description: >
+      Tell us how to reproduce this issue. Please add a minimal example that we can reproduce the error and get the same result as you by running the code.
+      Be as succinct as possible and do not depend on private data. Below, we have a code example.
 
-        Python: 3.8
-        OS: Ubuntu 18.04.6 LTS
-    validations:
-      required: true
-  - type: textarea
-    id: possible-solutions
-    attributes:
-      label: Any possible solutions?
-      description: Please feel free to add suggestions about how we could solve the problem.
-      placeholder: >
-        Example: We could add a parameter to allow the legend to be put in any position of the plot.
-  - type: textarea
-    id: other-comments
-    attributes:
-      label: Any other comments?
-      description: Please feel free to add any other context about the problem here.
+      ```python
+          import seaborn as sns
+          from galeritas import bar_plot_with_population_proportion
+
+          df = sns.load_dataset("penguins")
+
+          bar_plot_with_population_proportion(
+              df,
+              x='species',
+              y='body_mass_g',
+              plot_title='Distribuição da massa (g) por espécie',
+              figsize=(12, 6)
+          )
+      ```
+
+      If the code is too long, feel free to put it in a public gist and link it in the issue: https://gist.github.com.
+    placeholder: |
+      ```
+      Sample code to reproduce the problem
+      ```
+  validations:
+    required: true
+- type: textarea
+  id: environment
+  attributes:
+    label: Your environment
+    description: What version of galeritas you're using (and the versions of other dependencies as well) and the OS and Python versions you're running it on
+    placeholder:
+      Packages:
+      - galeritas: 0.1.3
+      - matplotlib: 3.4.0
+      - seaborn: 0.11.1
+
+      Python: 3.8
+      OS: Ubuntu 18.04.6 LTS
+  validations:
+    required: true
+- type: textarea
+  id: possible-solutions
+  attributes:
+    label: Any possible solutions?
+    description: Please feel free to add suggestions about how we could solve the problem.
+    placeholder: >
+      Example: We could add a parameter to allow the legend to be put in any position of the plot.
+- type: textarea
+  id: other-comments
+  attributes:
+    label: Any other comments?
+    description: Please feel free to add any other context about the problem here.
