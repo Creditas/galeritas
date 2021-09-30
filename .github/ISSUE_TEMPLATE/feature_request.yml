@@ -19,7 +19,7 @@ body:
     description: >
       What are you trying to do or wanted to do?
 
-      Is your feature request related to a issue/problem? Please provide a clear and concise description of what the problem is.
+      Is your feature request related to an issue/problem? Please provide a clear and concise description of what the problem is.
     placeholder: >
       Example: I'm always frustrated when [...]. So I wanted to include a plot that [...]
   validations:
