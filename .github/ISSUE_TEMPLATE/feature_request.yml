@@ -1,0 +1,49 @@
+name: Feature request
+description: Suggest an idea for this project (a new algorithm, enhancement to an existing algorithm, etc.)
+title: "[Feature Request]: "
+labels: ["enhancement", "triage"]
+
+body:
+- type: markdown
+  attributes:
+    value: >
+      Thanks for contributing with Galeritas by taking your time to fill out this feature request report!💚
+
+      :warning:️ #### Before submitting a feature request, please make sure the issue (or a similar one) hasn't been already
+      addressed by searching through [the past issues](https://github.com/Creditas/galeritas/issues).
+- type: textarea
+  id: context
+  attributes:
+    label: Context
+    description: >
+      What are you trying to do or wanted to do?
+
+      Is your feature request related to a issue/problem? Please provide a clear and concise description of what the problem is.
+    placeholder: >
+      Example: I'm always frustrated when [...]. So I wanted to include a plot that [...]
+  validations:
+    required: true
+- type: textarea
+  id: proposal_description
+  attributes:
+    label: Describe your proposed solution
+    description: >
+      Describe the solution you'd like with a clear and concise description of what you want to happen.
+
+      If you're suggesting a new plot, please provide screenshots of that to help us understand the request.
+    placeholder: >
+      Example: We could add a parameter to allow the legend to be put in any position of the plot that the user wants.
+  validations:
+    required: true
+- type: textarea
+  id: alternatives
+  attributes:
+    label: Describe alternatives you've considered
+    description: A clear and concise description of any alternative solutions or features you've considered.
+    placeholder: >
+      Example: We could also add a parameter to allow the legend to not be shown.
+- type: textarea
+  id: other-comments
+  attributes:
+    label: Any other comments?
+    description: Please feel free to add any other context or screenshots about the feature request here.
