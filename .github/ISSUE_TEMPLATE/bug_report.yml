@@ -53,7 +53,7 @@ body:
       label: Steps/Code to Reproduce
       description: |
       Tell us how to reproduce this issue. Please add a minimal example that we can reproduce the error and get the same result as you by running the code.
-      Be as succinct as possible and do not depend on private data. Example:
+      Be as succinct as possible and do not depend on private data. Below, we have a code example.
 
       ```python
           import seaborn as sns
@@ -104,10 +104,3 @@ body:
     attributes:
       label: Any other comments?
       description: Please feel free to add any other context about the problem here.
-
-
-
-
-
-
-
