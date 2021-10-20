@@ -4,7 +4,7 @@ __pycache__/
 *$py.class
 
 # Folders
-galeritas/dev
+/galeritas/dev/
 
 # C extensions
 *.so
