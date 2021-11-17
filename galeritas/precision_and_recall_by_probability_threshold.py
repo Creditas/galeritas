@@ -23,6 +23,7 @@ def plot_precision_and_recall_by_probability_threshold(
         colors=None,
         color_palette=None,
         figsize=(16, 7),
+        return_fig=False,
         **legend_kwargs):
     """
     Determines precision, recall e support scores for different thresholds for the positive class, using a data sample with
@@ -72,10 +73,13 @@ def plot_precision_and_recall_by_probability_threshold(
     :param figsize: A tuple that indicates the figure size (respectively, width and height in inches). |default| :code:`(16, 7)`
     :type figsize: tuple, optional
 
+    :param return_fig: If True return figure object. |default| :code:`True`
+    :type return_fig: bool, optional
+
     :param legend_kwargs: Matplotlib.pyplot's legend arguments such as *bbox_to_anchor* and *ncol*. Further informations `here <http://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.legend>`__.
     :type legend_kwargs: key, value mappings
 
-    :return: Returns the figure object with the plot
+    :return: Returns the figure object with the plot (*return_fig parameter needs to be set)
     :rtype: Figure
     """
 
@@ -191,6 +195,8 @@ def plot_precision_and_recall_by_probability_threshold(
 
         display(thresholds_metrics_dataframe)
 
-    plt.close()
+    if return_fig:
+        plt.show()
+        plt.close()
 
-    return fig
+        return fig
