@@ -18,7 +18,8 @@ def test_should_generate_plot_precision_and_recall_by_probability_threshold_corr
         df,
         prediction_column_name='predict_proba',
         target_name='survived',
-        n_trials=5
+        n_trials=5,
+        return_fig=True
     )
 
 
@@ -29,7 +30,8 @@ def test_should_return_figure_with_axes_ecdf(load_data):
         df,
         prediction_column_name='predict_proba',
         target_name='survived',
-        n_trials=5
+        n_trials=5,
+        return_fig=True
     )
 
     assert fig.get_axes() is not None
@@ -43,7 +45,8 @@ def test_should_raise_exception_when_colors_less_than_necessary(load_data):
             df,
             prediction_column_name='predict_proba',
             target_name='survived',
-            colors=['blue']
+            colors=['blue'],
+            return_fig=True
         )
 
 
@@ -54,5 +57,6 @@ def test_should_raise_exception_when_target_is_not_binary(load_data):
         plot_precision_and_recall_by_probability_threshold(
             df,
             prediction_column_name='predict_proba',
-            target_name='class'
+            target_name='class',
+            return_fig=True
         )

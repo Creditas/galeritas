@@ -21,7 +21,8 @@ def test_should_generate_plot_ecdf_curve_correctly(load_data):
         plot_title='Prediction distribution by PClass',
         figsize=(16, 6),
         percentiles=(25, 50, 75, 90),
-        mark_percentiles=True
+        mark_percentiles=True,
+        return_fig=True
     )
 
 
@@ -35,7 +36,8 @@ def test_should_return_figure_with_axes_ecdf(load_data):
         plot_title='Prediction distribution by PClass',
         figsize=(16, 6),
         percentiles=(25, 50, 75, 90),
-        mark_percentiles=True
+        mark_percentiles=True,
+        return_fig=True
     )
 
     assert fig.get_axes() is not None
@@ -47,7 +49,8 @@ def test_should_raise_warning_about_missing_values(load_data):
     with pytest.warns(UserWarning):
         plot_ecdf_curve(
             df=df,
-            column_to_plot='age'
+            column_to_plot='age',
+            return_fig=True
         )
 
 
@@ -59,5 +62,6 @@ def test_should_raise_exception_when_colors_is_smaller_number_categories(load_da
             df=df,
             column_to_plot='fare',
             hue='pclass',
-            colors=['blue']
+            colors=['blue'],
+            return_fig=True
         )

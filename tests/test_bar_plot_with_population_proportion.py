@@ -18,7 +18,8 @@ def test_should_generate_bar_plot_with_population_proportion_correctly(load_data
     return bar_plot_with_population_proportion(
         df=df,
         x='type',
-        y='legs'
+        y='legs',
+        return_fig=True
     )
 
 
@@ -28,7 +29,8 @@ def test_should_return_figure_with_axes_ecdf(load_data):
     fig = bar_plot_with_population_proportion(
         df=df,
         x='type',
-        y='legs'
+        y='legs',
+        return_fig=True
     )
 
     assert fig.get_axes() is not None
@@ -42,7 +44,8 @@ def test_should_raise_exception_when_colors_less_than_necessary(load_data):
             df=df,
             x='type',
             y='legs',
-            colors=['blue']
+            colors=['blue'],
+            return_fig=True
         )
 
 
@@ -54,5 +57,6 @@ def test_should_raise_exception_when_column_without_negative_values(load_data):
             df=df,
             x='type',
             y='legs',
-            split_variable=True
+            split_variable=True,
+            return_fig=True
         )
