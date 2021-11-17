@@ -60,7 +60,7 @@ def stacked_percentage_bar_plot(
     :param figsize: A tuple that indicates the figure size (respectively, width and height in inches). |default| :code:`(16, 7)`
     :type figsize: tuple, optional
 
-    :param return_fig: If True return figure object
+    :param return_fig: If True return figure object. |default| :code:`True`
     :type return_fig: bool, optional
 
     :param legend_kwargs: Matplotlib.pyplot's legend arguments such as *bbox_to_anchor* and *ncol*. Further informations `here <http://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.legend>`_.

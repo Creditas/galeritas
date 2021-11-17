@@ -62,7 +62,7 @@ def plot_ks_classification(y_pred,
     :param x_label: personalized x_label |default| :code:`Predicted Probability`
     :type x_label: str, optional
 
-    :param return_fig: If True return figure object
+    :param return_fig: If True return figure object. |default| :code:`True`
     :type return_fig: bool, optional
 
     :return: Returns the figure object with the plot (*return_fig parameter needs to be set)
