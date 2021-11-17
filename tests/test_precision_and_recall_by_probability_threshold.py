@@ -60,3 +60,16 @@ def test_should_raise_exception_when_target_is_not_binary(load_data):
             target_name='class',
             return_fig=True
         )
+
+
+def test_should_return_none_object_if_return_fig_param_is_not_configured(load_data):
+    df = load_data
+
+    fig = plot_precision_and_recall_by_probability_threshold(
+        df,
+        prediction_column_name='predict_proba',
+        target_name='survived',
+        n_trials=5
+    )
+
+    assert fig is None

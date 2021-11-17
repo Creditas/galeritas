@@ -65,3 +65,20 @@ def test_should_raise_exception_when_colors_is_smaller_number_categories(load_da
             colors=['blue'],
             return_fig=True
         )
+
+
+def test_should_return_none_object_if_return_fig_param_is_not_configured(load_data):
+    df = load_data
+
+    fig = plot_ecdf_curve(
+        df=df,
+        column_to_plot='predict_proba',
+        hue='pclass',
+        plot_title='Prediction distribution by PClass',
+        figsize=(16, 6),
+        percentiles=(25, 50, 75, 90),
+        mark_percentiles=True
+    )
+
+    assert fig is None
+

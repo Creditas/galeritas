@@ -20,13 +20,25 @@ def test_should_generate_plot_ks_classification_correctly(load_data):
                                   y_true=df['y_true'],
                                   return_fig=True)
 
+
+def test_should_return_none_object_if_return_fig_param_is_not_configured(load_data):
+    df = load_data
+
+    fig = plot_ks_classification(y_pred=df['y_pred'],
+                                 y_true=df['y_true']
+                                 )
+
+    assert fig is None
+
+
 def test_should_raise_exception_when_min_max_scale_should_be_passed(load_data):
     df = load_data
-    df['y_pred_score'] = df['y_pred']*1000
+    df['y_pred_score'] = df['y_pred'] * 1000
     with pytest.raises(ValueError):
         plot_ks_classification(y_pred=df['y_pred_score'],
                                y_true=df['y_true'],
                                return_fig=True)
+
 
 def test_should_raise_exception_when_y_true_has_more_than_2_unique_values(load_data):
     df = load_data
@@ -36,6 +48,7 @@ def test_should_raise_exception_when_y_true_has_more_than_2_unique_values(load_d
                                y_true=df['y_true'],
                                return_fig=True)
 
+
 def test_should_raise_exception_when_y_true_outside_range(load_data):
     df = load_data
     df.loc[df.y_true == 1, 'y_true'] = 0.2
@@ -43,3 +56,6 @@ def test_should_raise_exception_when_y_true_outside_range(load_data):
         plot_ks_classification(y_pred=df['y_pred_score'],
                                y_true=df['y_true'],
                                return_fig=True)
+
+
+

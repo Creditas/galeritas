@@ -60,3 +60,15 @@ def test_should_raise_exception_when_column_without_negative_values(load_data):
             split_variable=True,
             return_fig=True
         )
+
+
+def test_should_return_none_object_if_return_fig_param_is_not_configured(load_data):
+    df = load_data
+
+    fig = bar_plot_with_population_proportion(
+        df=df,
+        x='type',
+        y='legs'
+    )
+
+    assert fig is None
