@@ -30,6 +30,7 @@ def bar_plot_with_population_proportion(df, x, y,
                                         down_label='Negative values',
                                         plot_title=None,
                                         figsize=(16, 7),
+                                        return_fig=False,
                                         **legend_kwargs):
     """
     Produces a barplot with an additional dotplot showing the percentage of the dataset population for each category of
@@ -114,10 +115,13 @@ def bar_plot_with_population_proportion(df, x, y,
     :param figsize: A tuple that indicates the figure size (respectively, width and height in inches). |default| :code:`(16, 7)`
     :type figsize: tuple, optional
 
+    :param return_fig: If True return figure object
+    :type return_fig: bool, optional
+
     :param legend_kwargs: Matplotlib.pyplot's legend arguments such as *bbox_to_anchor* and *ncol*. Further informations `here <http://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.legend>`__.
     :type legend_kwargs: key, value mappings
 
-    :return: Returns the figure object with the plot
+    :return: Returns the figure object with the plot (*return_fig parameter needs to be set)
     :rtype: Figure
 
     """
@@ -156,9 +160,11 @@ def bar_plot_with_population_proportion(df, x, y,
 
     _set_titles_and_labels(ax, colormap, plot_title, population_legend, x, y, y_label, x_label, **legend_kwargs)
 
-    plt.close()
+    if return_fig:
+        plt.show()
+        plt.close()
 
-    return fig
+        return fig
 
 
 def _plot_bars(data, x, y, func, split_variable, ax, colormap, up_label, down_label, x_label, show_error_bar):

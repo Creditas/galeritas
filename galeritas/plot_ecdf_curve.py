@@ -24,6 +24,7 @@ def plot_ecdf_curve(
         mark_percentiles=True,
         show_percentile_table=False,
         figsize=(16, 7),
+        return_fig=False,
         **legend_kwargs):
     """
     Generates an empirical cumulative distribution function.
@@ -68,10 +69,13 @@ def plot_ecdf_curve(
     :param figsize: A tuple that indicates the figure size (respectively, width and height in inches). |default| :code:`(16, 7)`
     :type figsize: tuple, optional
 
+    :param return_fig: If True return figure object
+    :type return_fig: bool, optional
+
     :param legend_kwargs: Matplotlib.pyplot's legend arguments such as *bbox_to_anchor* and *ncol*. Further informations `here <http://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.legend>`__.
     :type legend_kwargs: key, value mappings
 
-    :return: Returns the figure object with the plot
+    :return: Returns the figure object with the plot (*return_fig parameter needs to be set)
     :rtype: Figure
     """
     data = df.copy()
@@ -169,8 +173,6 @@ def plot_ecdf_curve(
     if bool(legend_kwargs) is True:
         axes.legend(**legend_kwargs)
 
-    plt.close()
-
     if show_percentile_table:
         columns = list(zip([percentiles_title] * len(percentiles), list(percentiles)))
         columns = pd.MultiIndex.from_tuples(columns)
@@ -178,7 +180,11 @@ def plot_ecdf_curve(
 
         display(tabela)
 
-    return fig
+    if return_fig:
+        plt.show()
+        plt.close()
+
+        return fig
 
 
 def calculate_ecdf_plot_axis_values(data):

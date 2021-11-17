@@ -16,7 +16,8 @@ def plot_ks_classification(y_pred,
             neg_color="#b33d3d",
             figsize=(12, 7),
             plot_title="Predicted vs True",
-            x_label="Predicted Probability"
+            x_label="Predicted Probability",
+            return_fig=False
             ):
     """
     Produces a KS plot for predicted values (or scores) vs true value (0/1)
@@ -61,7 +62,10 @@ def plot_ks_classification(y_pred,
     :param x_label: personalized x_label |default| :code:`Predicted Probability`
     :type x_label: str, optional
 
-    :return: figure
+    :param return_fig: If True return figure object
+    :type return_fig: bool, optional
+
+    :return: Returns the figure object with the plot (*return_fig parameter needs to be set)
     :rtype: Figure
 
     """
@@ -121,4 +125,8 @@ def plot_ks_classification(y_pred,
         axes.text(0.5, 0.03, f"p-value={p_value}", fontsize=12)
     axes.set_ylabel('Cumulative Probability', fontsize=10)
 
-    return fig
+    if return_fig:
+        plt.show()
+        plt.close()
+
+        return fig
