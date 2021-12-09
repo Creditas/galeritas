@@ -117,6 +117,7 @@ def bar_plot_with_population_proportion(df, x, y,
     :type figsize: tuple, optional
 
     :param ax: Custom figure axes to plot. |default| :code: `None`
+    :type ax: matplotlib.axes, optional
 
     :param return_fig: If True return figure object. |default| :code:`True`
     :type return_fig: bool, optional

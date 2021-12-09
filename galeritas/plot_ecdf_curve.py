@@ -5,11 +5,6 @@ from galeritas.utils.creditas_palette import get_palette
 import seaborn as sns
 import warnings
 
-__all__ = [
-    "plot_ecdf_curve"
-]
-
-
 def plot_ecdf_curve(
         df,
         column_to_plot,
@@ -24,6 +19,7 @@ def plot_ecdf_curve(
         mark_percentiles=True,
         show_percentile_table=False,
         figsize=(16, 7),
+        ax=None,
         return_fig=False,
         **legend_kwargs):
     """
@@ -69,13 +65,16 @@ def plot_ecdf_curve(
     :param figsize: A tuple that indicates the figure size (respectively, width and height in inches). |default| :code:`(16, 7)`
     :type figsize: tuple, optional
 
+    :param ax: Custom figure axes to plot. |default| :code: `None`
+    :type ax: matplotlib.axes, optional
+
     :param return_fig: If True return figure object. |default| :code:`True`
     :type return_fig: bool, optional
 
     :param legend_kwargs: Matplotlib.pyplot's legend arguments such as *bbox_to_anchor* and *ncol*. Further informations `here <http://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.legend>`__.
     :type legend_kwargs: key, value mappings
 
-    :return: Returns the figure object with the plot (*return_fig parameter needs to be set)
+    :return: Returns the figure object with the plot
     :rtype: Figure
     """
     data = df.copy()
@@ -86,9 +85,12 @@ def plot_ecdf_curve(
 
     if drop_na:
         data = data.dropna(subset=[column_to_plot])
-
-    fig, axes = plt.subplots(1, 1, figsize=figsize)
-    fig.subplots_adjust(hspace=0.5)
+    
+    if ax:
+        axes=ax
+    else:
+        fig, axes = plt.subplots(1, 1, figsize=figsize)
+        fig.subplots_adjust(hspace=0.5)
 
     data_list = [data]
 
@@ -157,7 +159,7 @@ def plot_ecdf_curve(
             )
             percentiles_values.append(percentiles_calc)
 
-        plt.text(
+        axes.text(
             0.05,
             -0.15,
             f"{percentiles_title} {percentiles}",
