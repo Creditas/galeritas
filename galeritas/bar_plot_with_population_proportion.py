@@ -30,8 +30,8 @@ def bar_plot_with_population_proportion(df, x, y,
                                         down_label='Negative values',
                                         plot_title=None,
                                         figsize=(16, 7),
-                                        return_fig=None,
                                         ax=None,
+                                        return_fig=False,
                                         **legend_kwargs):
     """
     Produces a barplot with an additional dotplot showing the percentage of the dataset population for each category of
@@ -234,8 +234,7 @@ def _set_ticks_and_annotation(data, x, y, func, ax, circle_diameter, colormap, p
     ax.set_yticks(set_ticks)
 
     ax.set_ylim(bottom=bottom_y_lim)
-
-
+        
 def _set_titles_and_labels(ax, colormap, plot_title, population_legend, x, y, y_label, x_label, **legend_kwargs):
     ax.set_title(plot_title)
 
@@ -256,5 +255,3 @@ def _set_titles_and_labels(ax, colormap, plot_title, population_legend, x, y, y_
         ax.set_xlabel(x_label)
     else:
         ax.set_xlabel(x)
-    
-
