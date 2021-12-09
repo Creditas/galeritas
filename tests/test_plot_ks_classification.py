@@ -20,18 +20,6 @@ def test_should_generate_plot_ks_classification_correctly(load_data):
                                   y_true=df['y_true'],
                                   return_fig=True)
 
-@pytest.mark.mpl_image_compare
-def test_should_generate_subplot_plot_ks_classification_correctly(load_data):
-    df = load_data
-
-    f, axes = plt.subplots(1,2)
-
-    plot_ks_classification(y_pred=df['y_pred'],
-                           y_true=df['y_true'],
-                           ax=axes[1])
-
-    return f
-
 def test_should_return_none_object_if_return_fig_param_is_not_configured(load_data):
     df = load_data
 
@@ -69,3 +57,14 @@ def test_should_raise_exception_when_y_true_outside_range(load_data):
                                return_fig=True)
 
 
+@pytest.mark.mpl_image_compare
+def test_should_generate_subplot_plot_ks_classification_correctly(load_data):
+    df = load_data
+
+    f, axes = plt.subplots(1,2)
+
+    plot_ks_classification(y_pred=df['y_pred'],
+                           y_true=df['y_true'],
+                           ax=axes[1])
+
+    return f
