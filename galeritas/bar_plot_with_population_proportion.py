@@ -30,7 +30,8 @@ def bar_plot_with_population_proportion(df, x, y,
                                         down_label='Negative values',
                                         plot_title=None,
                                         figsize=(16, 7),
-                                        return_fig=False,
+                                        return_fig=None,
+                                        ax=None,
                                         **legend_kwargs):
     """
     Produces a barplot with an additional dotplot showing the percentage of the dataset population for each category of
@@ -115,6 +116,8 @@ def bar_plot_with_population_proportion(df, x, y,
     :param figsize: A tuple that indicates the figure size (respectively, width and height in inches). |default| :code:`(16, 7)`
     :type figsize: tuple, optional
 
+    :param ax: Custom figure axes to plot. |default| :code: `None`
+
     :param return_fig: If True return figure object. |default| :code:`True`
     :type return_fig: bool, optional
 
@@ -134,8 +137,11 @@ def bar_plot_with_population_proportion(df, x, y,
 
     data[x] = data[x].astype('str')
     data = data.sort_values(by=x)
-
-    fig, ax = plt.subplots(figsize=figsize, dpi=120)
+    
+    if ax:
+        axes = ax
+    else:
+        fig, axes = plt.subplots(figsize=figsize, dpi=120)
 
     if colors is None:
         colors = get_palette()
@@ -153,13 +159,13 @@ def bar_plot_with_population_proportion(df, x, y,
 
     colormap = dict(zip(categories_names, colors))
 
-    _plot_bars(data, x, y, func, split_variable, ax, colormap, up_label, down_label, x_label, show_error_bar)
+    _plot_bars(data, x, y, func, split_variable, axes, colormap, up_label, down_label, x_label, show_error_bar)
 
-    _set_ticks_and_annotation(data, x, y, func, ax, circle_diameter, colormap, proportion_format, show_qty, qty_label,
+    _set_ticks_and_annotation(data, x, y, func, axes, circle_diameter, colormap, proportion_format, show_qty, qty_label,
                               proportion_label, show_population_func, population_func_legend, population_format)
 
-    _set_titles_and_labels(ax, colormap, plot_title, population_legend, x, y, y_label, x_label, **legend_kwargs)
-
+    _set_titles_and_labels(axes, colormap, plot_title, population_legend, x, y, y_label, x_label, **legend_kwargs)
+    
     if return_fig:
         plt.show()
         plt.close()
@@ -224,7 +230,7 @@ def _set_ticks_and_annotation(data, x, y, func, ax, circle_diameter, colormap, p
                 ha="right", va="center")
 
     set_ticks = np.where(ticks >= ticks[0], ticks, ticks[0])
-    plt.yticks(set_ticks)
+    ax.set_yticks(set_ticks)
 
     ax.set_ylim(bottom=bottom_y_lim)
 
@@ -249,3 +255,5 @@ def _set_titles_and_labels(ax, colormap, plot_title, population_legend, x, y, y_
         ax.set_xlabel(x_label)
     else:
         ax.set_xlabel(x)
+    
+
