@@ -145,7 +145,7 @@ def _plot_stacked_percentage_bars(
     else:
         label = line_category
 
-    fig = ax.bar(
+    bar = ax.bar(
         label_names,
         percentage_crosstab_df[line_category],
         color=colormap[line_category],
@@ -157,7 +157,7 @@ def _plot_stacked_percentage_bars(
     )
 
     if annotate:
-        _annotate_plot(fig, bar_bottom_position, crosstab_df, n_category)
+        _annotate_plot(bar, bar_bottom_position, crosstab_df, n_category, ax)
 
     bar_bottom_position += percentage_crosstab_df[line_category]
 
@@ -169,12 +169,13 @@ def _calculate_percentages(data, categorical_feature, hue):
     return crosstab_df, percentage_crosstab_df
 
 
-def _annotate_plot(fig, bar_bottom_position, crosstab_df, n_category):
+def _annotate_plot(fig, bar_bottom_position, crosstab_df, n_category, ax=None):
     for ix, bar in enumerate(fig):
         if bar.get_height() > 1:
             x_position = bar.get_x() + bar.get_width() / 2
             y_position = bar.get_height() / 2 + bar_bottom_position[ix] - 2.0
-            fig.annotate(
+
+            ax.annotate(
                 crosstab_df.iloc[ix, n_category],
                 xy=(x_position, y_position),
                 xytext=(0, 4),
