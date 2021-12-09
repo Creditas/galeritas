@@ -96,7 +96,6 @@ def plot_ks_classification(y_pred,
 
     # Compute KS
     ks_res = ks_2samp(pos_data, neg_data)
-    ks = round(100. * ks_res.statistic, 2)
     p_value = round(ks_res.pvalue, 7)
 
     # Define curve

@@ -1,7 +1,7 @@
 import pytest
 import pandas as pd
 from galeritas import stacked_percentage_bar_plot
-
+from matplotlib import pyplot as plt
 
 @pytest.fixture(scope='module')
 def load_data():
@@ -73,3 +73,23 @@ def test_should_return_none_object_if_return_fig_param_is_not_configured(load_da
     )
 
     assert fig is None
+
+@pytest.mark.mpl_image_compare
+def test_should_generate_subplot_stacked_percentage_bar_plot_correctly(load_data):
+    df = load_data
+
+    f, axes = plt.subplots(1,2)
+
+    stacked_percentage_bar_plot(
+        categorical_feature='legs',
+        df=df,
+        hue='type',
+        plot_title='Zoo',
+        annotate=True,
+        color_palette='husl',
+        bbox_to_anchor=(1.13, 1.01),
+        figsize=(20, 8),
+        ax=axes[1]
+    )
+
+    return f
