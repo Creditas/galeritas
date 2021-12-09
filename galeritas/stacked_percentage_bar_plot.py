@@ -19,6 +19,7 @@ def stacked_percentage_bar_plot(
         colors=None,
         color_palette=None,
         figsize=(16, 7),
+        ax=None,
         return_fig=False,
         **legend_kwargs
 ):
@@ -93,10 +94,13 @@ def stacked_percentage_bar_plot(
         colors = sns.color_palette(color_palette, len(categories_names))
 
     colormap = dict(zip(categories_names, colors))
-    fig, ax = plt.subplots(figsize=figsize, dpi=120)
+
+    if ax is None:
+        fig, ax = plt.subplots(figsize=figsize, dpi=120)
 
     for n_category, line_category in enumerate(categories_names):
         _plot_stacked_percentage_bars(
+            ax,
             n_category,
             line_category,
             percentage_crosstab_df,
@@ -125,6 +129,7 @@ def stacked_percentage_bar_plot(
 
 
 def _plot_stacked_percentage_bars(
+        ax,
         n_category,
         line_category,
         percentage_crosstab_df,
@@ -140,7 +145,7 @@ def _plot_stacked_percentage_bars(
     else:
         label = line_category
 
-    fig = plt.bar(
+    fig = ax.bar(
         label_names,
         percentage_crosstab_df[line_category],
         color=colormap[line_category],
@@ -169,7 +174,7 @@ def _annotate_plot(fig, bar_bottom_position, crosstab_df, n_category):
         if bar.get_height() > 1:
             x_position = bar.get_x() + bar.get_width() / 2
             y_position = bar.get_height() / 2 + bar_bottom_position[ix] - 2.0
-            plt.annotate(
+            fig.annotate(
                 crosstab_df.iloc[ix, n_category],
                 xy=(x_position, y_position),
                 xytext=(0, 4),
