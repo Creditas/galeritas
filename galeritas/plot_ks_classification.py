@@ -4,7 +4,7 @@ from scipy.stats import ks_2samp
 
 __all__ = ["plot_ks_classification"]
 
-def plot_ks_classification(y_pred,
+def plot_ks_classification_with_subplots(y_pred,
             y_true,
             min_max_scale=None,
             show_p_value=True,
@@ -15,8 +15,9 @@ def plot_ks_classification(y_pred,
             pos_color="#3377bb",
             neg_color="#b33d3d",
             figsize=(12, 7),
-            plot_title="Predicted vs True",
+            plot_title="Kolmogorov–Smirnov (KS) Metric",
             x_label="Predicted Probability",
+            ax=None,
             return_fig=False
             ):
     """
@@ -62,6 +63,9 @@ def plot_ks_classification(y_pred,
     :param x_label: personalized x_label |default| :code:`Predicted Probability`
     :type x_label: str, optional
 
+    :param ax: Custom figure axes to plot. |default| :code: `None`
+    :type ax: matplotlib.axes, optional
+
     :param return_fig: If True return figure object. |default| :code:`True`
     :type return_fig: bool, optional
 
@@ -104,8 +108,11 @@ def plot_ks_classification(y_pred,
     ks_text = round(100. * (neg - pos)[xmax], 2)
 
     # Plot
-    fig, axes = plt.subplots(1, 1, figsize=figsize)
-    fig.suptitle(plot_title, y=1, weight='bold', fontsize=14)
+    if ax:
+        axes = ax
+    else:
+        fig, axes = plt.subplots(1, 1, figsize=figsize)
+        fig.suptitle(plot_title, y=1, weight='bold', fontsize=14)
 
     axes.plot(th, pos, pos_color, label=pos_label)
     axes.plot(th, neg, neg_color, label=neg_label)
@@ -119,14 +126,15 @@ def plot_ks_classification(y_pred,
         print(f'scaled: {xticks}')
         axes.set_xticklabels(["{:0.0f}".format(x) for x in xticks])
 
-    axes.set_title(f"Kolmogorov–Smirnov (KS) Metric", weight='bold', fontsize=12)
+    axes.set_title(plot_title, fontsize=12)
     axes.text(0.5, 0.1, f"KS={ks_text}%", fontsize=16)
     if show_p_value:
         axes.text(0.5, 0.03, f"p-value={p_value}", fontsize=12)
     axes.set_ylabel('Cumulative Probability', fontsize=10)
-
+    
     if return_fig:
         plt.show()
         plt.close()
 
         return fig
+    
