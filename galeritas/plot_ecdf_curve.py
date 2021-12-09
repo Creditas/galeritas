@@ -68,7 +68,7 @@ def plot_ecdf_curve(
     :param ax: Custom figure axes to plot. |default| :code: `None`
     :type ax: matplotlib.axes, optional
 
-    :param return_fig: If True return figure object. |default| :code:`True`
+    :param return_fig: If True return figure object. |default| :code:`Fase`
     :type return_fig: bool, optional
 
     :param legend_kwargs: Matplotlib.pyplot's legend arguments such as *bbox_to_anchor* and *ncol*. Further informations `here <http://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.legend>`__.
