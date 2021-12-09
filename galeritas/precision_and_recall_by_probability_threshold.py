@@ -23,6 +23,7 @@ def plot_precision_and_recall_by_probability_threshold(
         colors=None,
         color_palette=None,
         figsize=(16, 7),
+        ax=None,
         return_fig=False,
         **legend_kwargs):
     """
@@ -72,8 +73,11 @@ def plot_precision_and_recall_by_probability_threshold(
 
     :param figsize: A tuple that indicates the figure size (respectively, width and height in inches). |default| :code:`(16, 7)`
     :type figsize: tuple, optional
+    
+    :param ax: Custom figure axes to plot. |default| :code: `None`
+    :type ax: matplotlib.axes, optional
 
-    :param return_fig: If True return figure object. |default| :code:`True`
+    :param return_fig: If True return figure object. |default| :code:`False`
     :type return_fig: bool, optional
 
     :param legend_kwargs: Matplotlib.pyplot's legend arguments such as *bbox_to_anchor* and *ncol*. Further informations `here <http://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.legend>`__.
@@ -115,7 +119,9 @@ def plot_precision_and_recall_by_probability_threshold(
     lower_support_rate, median_support_rate, upper_support_rate = mstats.mquantiles(uniform_support_rate_plots,
                                                                                     quantiles, axis=0)
 
-    fig, ax = plt.subplots(figsize=figsize, dpi=120)
+    # Plot
+    if ax is None:
+        fig, ax = plt.subplots(figsize=figsize, dpi=120)
 
     plt.plot(uniform_thresholds, median_precision, color=colormap['precision'])
     plt.plot(uniform_thresholds, median_recall, color=colormap['recall'])

@@ -119,7 +119,7 @@ def bar_plot_with_population_proportion(df, x, y,
     :param ax: Custom figure axes to plot. |default| :code: `None`
     :type ax: matplotlib.axes, optional
 
-    :param return_fig: If True return figure object. |default| :code:`True`
+    :param return_fig: If True return figure object. |default| :code:`False`
     :type return_fig: bool, optional
 
     :param legend_kwargs: Matplotlib.pyplot's legend arguments such as *bbox_to_anchor* and *ncol*. Further informations `here <http://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.legend>`__.
