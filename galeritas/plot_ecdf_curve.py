@@ -5,6 +5,9 @@ from galeritas.utils.creditas_palette import get_palette
 import seaborn as sns
 import warnings
 
+__all__ = ["plot_ecdf_curve"]
+
+
 def plot_ecdf_curve(
         df,
         column_to_plot,
