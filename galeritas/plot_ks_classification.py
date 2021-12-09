@@ -4,7 +4,7 @@ from scipy.stats import ks_2samp
 
 __all__ = ["plot_ks_classification"]
 
-def plot_ks_classification_with_subplots(y_pred,
+def plot_ks_classification(y_pred,
             y_true,
             min_max_scale=None,
             show_p_value=True,
