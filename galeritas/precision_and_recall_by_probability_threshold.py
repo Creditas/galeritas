@@ -123,21 +123,21 @@ def plot_precision_and_recall_by_probability_threshold(
     if ax is None:
         fig, ax = plt.subplots(figsize=figsize, dpi=120)
 
-    plt.plot(uniform_thresholds, median_precision, color=colormap['precision'])
-    plt.plot(uniform_thresholds, median_recall, color=colormap['recall'])
-    plt.plot(uniform_thresholds, median_support_rate, color=colormap['support_rate'])
+    ax.plot(uniform_thresholds, median_precision, color=colormap['precision'])
+    ax.plot(uniform_thresholds, median_recall, color=colormap['recall'])
+    ax.plot(uniform_thresholds, median_support_rate, color=colormap['support_rate'])
 
-    plt.fill_between(uniform_thresholds, upper_precision, lower_precision, alpha=0.5, linewidth=0,
+    ax.fill_between(uniform_thresholds, upper_precision, lower_precision, alpha=0.5, linewidth=0,
                      color=colormap['precision'])
-    plt.fill_between(uniform_thresholds, upper_recall, lower_recall, alpha=0.5, linewidth=0, color=colormap['recall'])
-    plt.fill_between(uniform_thresholds, upper_support_rate, lower_support_rate, alpha=0.5, linewidth=0,
+    ax.fill_between(uniform_thresholds, upper_recall, lower_recall, alpha=0.5, linewidth=0, color=colormap['recall'])
+    ax.fill_between(uniform_thresholds, upper_support_rate, lower_support_rate, alpha=0.5, linewidth=0,
                      color=colormap['support_rate'])
 
-    plt.legend(
+    ax.legend(
         ('precision', 'recall', 'support'), frameon=True, **legend_kwargs
     )
 
-    plt.text(
+    ax.text(
         0.05,
         -0.15,
         f"Confidence Interval: {confidence_interval}%",
@@ -147,12 +147,12 @@ def plot_precision_and_recall_by_probability_threshold(
     )
 
     ax.set_title(plot_title, pad=30)
-    plt.xticks(np.arange(0, 1.1, 0.1))
-    plt.yticks(np.arange(0, 1.1, 0.1))
+    ax.set_xticks(np.arange(0, 1.1, 0.1))
+    ax.set_yticks(np.arange(0, 1.1, 0.1))
     ax.set_xlabel(x_label)
     ax.set_ylabel(y_label)
 
-    plt.grid(True, alpha=0.6, linestyle='--')
+    ax.grid(True, alpha=0.6, linestyle='--')
 
     if thresholds_to_highlight:
         label = "A"
@@ -171,7 +171,7 @@ def plot_precision_and_recall_by_probability_threshold(
         ]
 
         for highlight_threshold in thresholds_to_highlight:
-            plt.plot(
+            ax.plot(
                 np.repeat(highlight_threshold, len(uniform_thresholds)), uniform_thresholds, "k--"
             )
 
@@ -193,7 +193,7 @@ def plot_precision_and_recall_by_probability_threshold(
             )
             thresholds_metrics_summary_range[label]["probability_threshold"] = highlight_threshold
 
-            plt.text(highlight_threshold - 0.006, 1.08, label)
+            ax.text(highlight_threshold - 0.006, 1.08, label)
             label = chr(ord(label) + 1)
 
         thresholds_metrics_dataframe = pd.DataFrame(thresholds_metrics_summary_range).T[metrics_columns_range_order]
