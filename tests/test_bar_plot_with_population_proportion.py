@@ -1,5 +1,6 @@
 import pytest
 import pandas as pd
+from matplotlib import pyplot as plt
 
 from galeritas import bar_plot_with_population_proportion
 
@@ -72,3 +73,13 @@ def test_should_return_none_object_if_return_fig_param_is_not_configured(load_da
     )
 
     assert fig is None
+
+@pytest.mark.mpl_image_compare
+def test_should_generate_subplot_with_bar_plot_with_population_proportion_correctly(load_data):
+    df = load_data
+
+    f, axes = plt.subplots(1,2)
+
+    bar_plot_with_population_proportion(df=df, x='type', y='legs', ax=axes[1])
+
+    return f
