@@ -1,5 +1,6 @@
 from sklearn.calibration import calibration_curve
 from matplotlib import pyplot as plt
+import warnings
 import numpy as np
 
 __all__ = ["plot_calibration_and_distribution"]
@@ -60,10 +61,20 @@ def plot_calibration_and_distribution(
     :rtype: Figure
 
     """
-
-    if show_distribution:
+    
+    if show_distribution and ax:
+        warnings.warn("`ax` is not None and `show_distribution` is True. Ignoring distribution for plotting in personalized axes. To see distribution don't use `ax` parameter.")
+        show_distribution = False
+    
+    if ax:
+        # used personalized axes (ax)
+        ax1 = ax
+        
+    elif show_distribution:
+        # create subplots for calibration curve and distribution
         fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(20, 10))
     else:
+        # create only one plot with calibration curve
         fig, ax1 = plt.subplots(figsize=(20, 10))
 
     if strategy == 'uniform':
