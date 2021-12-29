@@ -4,7 +4,8 @@ from scipy.stats import ks_2samp
 
 __all__ = ["plot_ks_classification"]
 
-def plot_ks_classification(y_pred,
+def plot_ks_classification(df,
+            y_pred,
             y_true,
             min_max_scale=None,
             show_p_value=True,
@@ -23,11 +24,13 @@ def plot_ks_classification(y_pred,
     """
     Produces a KS plot for predicted values (or scores) vs true value (0/1)
 
+    :param df: a pd.Dataframe that contains y_pred and y_true columns
+    :type df: pd.Dataframe
 
-    :param y_pred: an array or pandas.Series with predicted values (if out of range (0,1) 'min_max_scale' should be passed and 'scale' set as True)
+    :param y_pred: column name in df corresponding to predictions
     :type y_pred: float
 
-    :param y_true: an array or pandas.Series with true values (0 or 1)
+    :param y_true: column name in df corresponding to target values (0 or 1)
     :type y_true: integer
 
     :param min_max_scale: Tuple containing (min, max) values for scaling y_pred |default| :code:`None`
@@ -73,6 +76,8 @@ def plot_ks_classification(y_pred,
     :rtype: Figure
 
     """
+    y_pred = df[y_pred]
+    y_true = df[y_true]
 
     y_pred_outside_range = (max(y_pred) > 1 or min(y_pred) < 0)
     if y_pred_outside_range and min_max_scale is None:
