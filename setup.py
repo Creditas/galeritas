@@ -6,7 +6,7 @@ from setuptools.command.install import install
 with open("README.md", "r") as readme_file:
     long_description = readme_file.read()
 
-VERSION = "0.1.3"
+VERSION = "0.1.4"
 
 class VerifyVersionCommand(install):
     """Custom command to verify that the git tag matches our version"""
