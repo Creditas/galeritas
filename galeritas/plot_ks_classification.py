@@ -4,7 +4,8 @@ from scipy.stats import ks_2samp
 
 __all__ = ["plot_ks_classification"]
 
-def plot_ks_classification(y_pred,
+def plot_ks_classification(df,
+            y_pred,
             y_true,
             min_max_scale=None,
             show_p_value=True,
@@ -23,18 +24,20 @@ def plot_ks_classification(y_pred,
     """
     Produces a KS plot for predicted values (or scores) vs true value (0/1)
 
+    :param df: a pd.Dataframe that contains y_pred and y_true columns
+    :type df: pd.Dataframe
 
-    :param y_pred: an array or pandas.Series with predicted values (if out of range (0,1) 'min_max_scale' should be passed and 'scale' set as True)
+    :param y_pred: column name in df corresponding to predictions
     :type y_pred: float
 
-    :param y_true: an array or pandas.Series with true values (0 or 1)
+    :param y_true: column name in df corresponding to target values (0 or 1)
     :type y_true: integer
 
     :param min_max_scale: Tuple containing (min, max) values for scaling y_pred |default| :code:`None`
     :type min_max_scale: tuple, optional
 
     :param show_p_value: If True plot p-value for the KS together with curves |default| :code:`True`
-    :type show_error_bar: bool, optional
+    :type show_p_value: bool, optional
 
     :param pos_value: Integer 0/1 indicating which is the positive value in the y_true (in some applications 0 may indicate a 'bad behavior', like default) |default| :code:`1`
     :type pos_value: integer, optional
@@ -57,7 +60,7 @@ def plot_ks_classification(y_pred,
     :param figsize: tuple containing (height, width) for plot size |default| :code:`(12, 7)`
     :type figsize: tuple, optional
 
-    :param plot_title: main title of plot |default| :code:`Predicted vs True`
+    :param plot_title: main title of plot |default| :code:`Kolmogorov-Smirnov (KS) Metric`
     :type plot_title: str, optional
 
     :param x_label: personalized x_label |default| :code:`Predicted Probability`
@@ -73,6 +76,8 @@ def plot_ks_classification(y_pred,
     :rtype: Figure
 
     """
+    y_pred = df[y_pred]
+    y_true = df[y_true]
 
     y_pred_outside_range = (max(y_pred) > 1 or min(y_pred) < 0)
     if y_pred_outside_range and min_max_scale is None:
@@ -111,7 +116,6 @@ def plot_ks_classification(y_pred,
         axes = ax
     else:
         fig, axes = plt.subplots(1, 1, figsize=figsize)
-        fig.suptitle(plot_title, y=1, weight='bold', fontsize=14)
 
     axes.plot(th, pos, pos_color, label=pos_label)
     axes.plot(th, neg, neg_color, label=neg_label)
@@ -120,10 +124,8 @@ def plot_ks_classification(y_pred,
     axes.set_xlabel(x_label, fontsize=10)
     if min_max_scale:
         xticks = plt.xticks()[0]
-        print(f'original: {xticks}')
         xticks = (xticks * (min_max_scale[1] - min_max_scale[0])) + min_max_scale[0]
-        print(f'scaled: {xticks}')
-        axes.set_xticklabels(["{:0.0f}".format(x) for x in xticks])
+        axes.set_xticklabels(["{:0.2f}".format(x) for x in xticks])
 
     axes.set_title(plot_title, fontsize=12)
     axes.text(0.5, 0.1, f"KS={ks_text}%", fontsize=16)

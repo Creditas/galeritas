@@ -6,7 +6,7 @@ __all__ = ["plot_calibration_and_distribution"]
 
 
 def plot_calibration_and_distribution(
-        data,
+        df,
         target,
         predictions,
         n_bins=20,
@@ -24,8 +24,8 @@ def plot_calibration_and_distribution(
         (2) a distribuition plot
     for predicted values
 
-    :param data: a pd.Dataframe that contains target and prediction data
-    :type data: pd.Dataframe
+    :param df: a pd.Dataframe that contains target and prediction data
+    :type df: pd.Dataframe
 
     :param target: name of target column
     :type target: string
@@ -71,13 +71,13 @@ def plot_calibration_and_distribution(
 
     else:
         quantiles = np.linspace(0, 1, n_bins + 1)
-        bins = np.percentile(data[predictions], quantiles * 100)
+        bins = np.percentile(df[predictions], quantiles * 100)
         bins[-1] = bins[-1] + 1e-8
 
-    binids = np.digitize(data[predictions], bins) - 1
+    binids = np.digitize(df[predictions], bins) - 1
 
-    bin_sums = np.bincount(binids, weights=data[predictions], minlength=len(bins))
-    bin_true = np.bincount(binids, weights=data[target], minlength=len(bins))
+    bin_sums = np.bincount(binids, weights=df[predictions], minlength=len(bins))
+    bin_true = np.bincount(binids, weights=df[target], minlength=len(bins))
     bin_total = np.bincount(binids, minlength=len(bins))
 
     nonzero = bin_total != 0
@@ -93,7 +93,7 @@ def plot_calibration_and_distribution(
     # plot perfectly calibrated
     ax1.plot([0, y_lim], [0, y_lim], label='Perfectly calibrated', linestyle='--', color='black')
 
-    fop_calibrated, mpv_calibrated = calibration_curve(data[target], data[predictions], n_bins=n_bins,
+    fop_calibrated, mpv_calibrated = calibration_curve(df[target], df[predictions], n_bins=n_bins,
                                                        strategy=strategy)
     ax1.plot(mpv_calibrated, fop_calibrated, marker='.', label=predictions, color=color)
 
@@ -105,7 +105,7 @@ def plot_calibration_and_distribution(
     ax1.set_ylabel('Mean target value')
 
     if show_distribution:
-        ax2.hist(data[predictions], histtype="bar", bins=bins, label=predictions, color=color)
+        ax2.hist(df[predictions], histtype="bar", bins=bins, label=predictions, color=color)
 
         ax2.set_xlim([0, x_lim])
         ax2.legend(loc="upper left")
