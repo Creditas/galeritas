@@ -120,7 +120,7 @@ def plot_ks_classification(y_pred,
     if min_max_scale:
         xticks = plt.xticks()[0]
         xticks = (xticks * (min_max_scale[1] - min_max_scale[0])) + min_max_scale[0]
-        axes.set_xticklabels(["{:0.0f}".format(x) for x in xticks])
+        axes.set_xticklabels(["{:0.2f}".format(x) for x in xticks])
 
     axes.set_title(plot_title, fontsize=12)
     axes.text(0.5, 0.1, f"KS={ks_text}%", fontsize=16)
