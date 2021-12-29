@@ -20,10 +20,7 @@ def plot_calibration_and_distribution(
         ax=None):
 
     """
-    Returns
-        (1) a calibration curve
-        (2) a distribuition plot
-    for predicted values
+    Returns a calibration curve for predicted values. If wanted, it will also return a distribuition plot.
 
     :param df: a pd.Dataframe that contains target and prediction data
     :type df: pd.Dataframe
