@@ -34,7 +34,7 @@ def plot_ks_classification(y_pred,
     :type min_max_scale: tuple, optional
 
     :param show_p_value: If True plot p-value for the KS together with curves |default| :code:`True`
-    :type show_error_bar: bool, optional
+    :type show_p_value: bool, optional
 
     :param pos_value: Integer 0/1 indicating which is the positive value in the y_true (in some applications 0 may indicate a 'bad behavior', like default) |default| :code:`1`
     :type pos_value: integer, optional
@@ -57,7 +57,7 @@ def plot_ks_classification(y_pred,
     :param figsize: tuple containing (height, width) for plot size |default| :code:`(12, 7)`
     :type figsize: tuple, optional
 
-    :param plot_title: main title of plot |default| :code:`Predicted vs True`
+    :param plot_title: main title of plot |default| :code:`Kolmogorov-Smirnov (KS) Metric`
     :type plot_title: str, optional
 
     :param x_label: personalized x_label |default| :code:`Predicted Probability`
@@ -111,7 +111,6 @@ def plot_ks_classification(y_pred,
         axes = ax
     else:
         fig, axes = plt.subplots(1, 1, figsize=figsize)
-        fig.suptitle(plot_title, y=1, weight='bold', fontsize=14)
 
     axes.plot(th, pos, pos_color, label=pos_label)
     axes.plot(th, neg, neg_color, label=neg_label)
@@ -120,9 +119,7 @@ def plot_ks_classification(y_pred,
     axes.set_xlabel(x_label, fontsize=10)
     if min_max_scale:
         xticks = plt.xticks()[0]
-        print(f'original: {xticks}')
         xticks = (xticks * (min_max_scale[1] - min_max_scale[0])) + min_max_scale[0]
-        print(f'scaled: {xticks}')
         axes.set_xticklabels(["{:0.0f}".format(x) for x in xticks])
 
     axes.set_title(plot_title, fontsize=12)
