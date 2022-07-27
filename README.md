@@ -34,9 +34,9 @@ cd galeritas
 python setup.py install
 ```
 
-### Documentation (in portuguese)
+### Documentation
 
-https://medium.com/creditas-tech/galeritas-uma-biblioteca-para-visualiza%C3%A7%C3%A3o-de-dados-ef5ab0652268
+For more information about Galeritas, you can check [this](https://medium.com/creditas-tech/galeritas-uma-biblioteca-para-visualiza%C3%A7%C3%A3o-de-dados-ef5ab0652268) publication on Medium (in Portuguese).
 
 ## License
 
