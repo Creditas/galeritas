@@ -34,6 +34,10 @@ cd galeritas
 python setup.py install
 ```
 
+### Documentation (in portuguese)
+
+https://medium.com/creditas-tech/galeritas-uma-biblioteca-para-visualiza%C3%A7%C3%A3o-de-dados-ef5ab0652268
+
 ## License
 
 The package is released under the [Apache License 2.0](https://github.com/Creditas/galeritas/blob/main/LICENSE).
