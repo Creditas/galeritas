@@ -1,0 +1,18 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: galeritas
+  description: Galeritas is an open library for data visualization.
+  annotations:
+    creditas.io/tribe: tribe-non-tech
+    creditas.io/squad: Data Science
+    github.com/project-slug: Creditas/galeritas
+    creditas.io/language: Python
+  tags:
+  - data-science
+  - data-visualization
+  - python
+spec:
+  type: library
+  lifecycle: production
+  owner: squad-non-tech-data-science
