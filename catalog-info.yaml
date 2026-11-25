@@ -8,6 +8,8 @@ metadata:
     creditas.io/squad: Data Science
     github.com/project-slug: Creditas/galeritas
     creditas.io/language: Python
+    creditas.io/product-type: limited-impact
+    creditas.io/tier: tier-3
   tags:
   - data-science
   - data-visualization
